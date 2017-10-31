@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Kiddyer</title>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+</head>
+<body>
+<div class="container">
+    <h1>PubNub + Google Maps </h1>
+    <div id="map-canvas" style="width:800px;height:500px"></div>
+    <div id="msg"></div>
+</div>
+<script>
+    //opera house
+    window.lat = -33.8655721;
+    window.lng = 151.2048194;
+    var map;
+    var mark;
+    var lineCoords = [];
+    var initialize = function () {
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            window.lat = position.coords.latitude;
+            window.lng = position.coords.longitude;
+
+            map = new google.maps.Map(document.getElementById('map-canvas'), {center: {lat: lat, lng: lng}, zoom: 16});
+            mark = new google.maps.Marker(
+                    {
+                        map: map,
+                        icon: 'http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png',
+                        title: 'Kid',
+                        animation: google.maps.Animation.DROP,
+                        position: {lat: lat, lng: lng}
+                    });
+
+            lineCoords.push(new google.maps.LatLng(window.lat, window.lng));
+        });
+
+    };
+
+    window.initialize = initialize;
+    var redraw = function (payload) {
+        lat = payload.message.lat;
+        lng = payload.message.lng;
+        map.setCenter({lat: lat, lng: lng, alt: 0});
+        mark.setPosition({lat: lat, lng: lng, alt: 0});
+        lineCoords.push(new google.maps.LatLng(lat, lng));
+        var lineCoordinatesPath = new google.maps.Polyline({
+            path: lineCoords,
+            geodesic: true,
+            strokeColor: '#2E10FF'
+        });
+
+        lineCoordinatesPath.setMap(map);
+    };
+
+    var pnChannel = "map-channel";
+    var pubnub = new PubNub({
+        publishKey: 'pub-c-767ad932-3c82-48bf-9321-af8c88996481',
+        subscribeKey: 'sub-c-ec401df2-b088-11e7-8d62-62090b44bf58'
+    });
+
+    pubnub.subscribe({channels: [pnChannel]});
+    pubnub.addListener({message: redraw});
+    setInterval(function () {
+        var currentLocation = {lat: window.lat, lng: window.lng};
+        document.getElementById('msg').innerHTML = "realtime location: " + currentLocation.lat + ","+ currentLocation.lng;
+        currentLocation = randomMove(currentLocation);
+        pubnub.publish({channel: pnChannel, message: currentLocation});
+    }, 2000);
+
+
+    function randomMove(loc) {
+        var r = Math.random();
+        if (r < 0.3) {
+            loc.lat += 0.0001;
+            loc.lng -= 0.0001;
+        } else if (r < 0.5) {
+            loc.lat -= 0.0003;
+            loc.lng += 0.0001;
+        } else if (r < 0.7) {
+            loc.lat -= 0.00005;
+            loc.lng -= 0.0002;
+        } else {
+            loc.lat += 0.00005;
+            loc.lng += 0.0003;
+        }
+        return loc;
+    }
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD_UXHyOwQsMOAEJ_WyW7VJwnOdYZGJs4I&callback=initialize"></script>
+
+</body>
+</html>
