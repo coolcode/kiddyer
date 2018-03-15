@@ -20,7 +20,6 @@
     var mark;
     var lineCoords = [];
     var initialize = function () {
-
         navigator.geolocation.getCurrentPosition(function (position) {
             window.lat = position.coords.latitude;
             window.lng = position.coords.longitude;
@@ -37,7 +36,6 @@
 
             lineCoords.push(new google.maps.LatLng(window.lat, window.lng));
         });
-
     };
 
     window.initialize = initialize;
@@ -69,7 +67,7 @@
         document.getElementById('msg').innerHTML = "realtime location: " + currentLocation.lat + ","+ currentLocation.lng;
         currentLocation = randomMove(currentLocation);
         pubnub.publish({channel: pnChannel, message: currentLocation});
-    }, 2000);
+    }, 3000);
 
 
     function randomMove(loc) {
