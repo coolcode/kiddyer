@@ -14,6 +14,7 @@ import {
 
 import {Actions, Router, Stack, Scene} from 'react-native-router-flux';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import MyWeb from './pages/MyWeb';
 import FetchExample from './pages/FetchExample';
 
@@ -33,10 +34,13 @@ export default class App extends Component<Props> {
           <Scene key="login"
             component={Login}
             title="Login"
-            rightTitle="MyWeb"
-            onRight={() => Actions.home()}
+            rightTitle="register"
+            onRight={() => Actions.register()}
             />
-          <Scene key="register" component={MyWeb} title="Register"/>
+          <Scene key="register" component={Register} title="Register"
+              rightTitle="MyWeb"
+              onRight={() => Actions.myweb()} />
+          <Scene key="myweb" component={MyWeb} title="MyWeb" />
           <Scene key="home" component={FetchExample} title="Fetch"/>
         </Stack>
       </Router>

@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
-import { ScrollView, Text, TextInput, View, Button } from 'react-native';
-//import { login } from '../redux/actions/auth';
+import { Container, Header, Content, Button, Text, Form, Item, Input } from 'native-base';
 
-class Login extends Component { 
-    render () {
-        return (
-            <View><Text>12313</Text></View>
-        );
-    }
+export default class Login extends Component {
+  render() {
+    return (
+      <Container>
+       <Content>
+         <Form>
+           <Item>
+             <Input placeholder="Username" />
+           </Item>
+           <Item>
+             <Input placeholder="Password" secureTextEntry />
+           </Item>
+           <Button block>
+            <Text>Login</Text>
+          </Button>
+         </Form>
+       </Content>
+     </Container>
+    );
+  }
 }
-
-
-
-export default Login;
