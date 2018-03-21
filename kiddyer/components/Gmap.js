@@ -1,68 +1,91 @@
-import React,{ Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Container, Header, Content, Button, Text, Form, Item, Input } from 'native-base';
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  InteractionManager,
+} from 'react-native';
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+  Button,
+  Icon,
+} from 'native-base';
 import MapView from 'react-native-maps';
+
+
+export default class Gmap extends Component {
+  state = {
+    loading: true,
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({ loading: false });
+    });
+  }
+
+  render() {
+    const { width, height } = Dimensions.get('window');
+    const ratio = width / height;
+
+    const coordinates = {
+      latitude: -33.8885795,
+      longitude: 151.1851586,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0922 * ratio,
+    }; 
+
+    return ( 
+      <Container>
+        <Header>
+          <Title>Map</Title>          
+        </Header>
+
+         <Content scrollEnabled={false}>
+          <View style={{ width, height }}>
+            {this.state.loading ? (
+              <Loading />
+            ) : (
+              <MapView
+                style={styles.map}
+                initialRegion={coordinates}
+              />
+            )}
+          </View>
+        </Content>
+
+        <Footer>
+          <FooterTab>
+            <Button transparent>
+             <Text> Maps</Text> 
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container> 
+    );
+  }
+}
+
+const Loading = () => (
+  <View style={styles.container}>
+    <Text>Loading...</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 400,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   map: {
+    marginTop: 1.5,
     ...StyleSheet.absoluteFillObject,
   },
 });
-
-export default class Gmap extends Component { 
-
-  constructor(props) {
-    super(props);
-    this.state = { 
-      region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      } 
-    };
-  }
-  
-  getInitialState() {
-    return {
-      region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    };
-  }
-  
-  onRegionChange(region) {
-    this.setState({ region });
-  }
-  
-  render() {
-    const { region } = this.props;
-    console.log(region);
-
-    return (
-      //<View style ={styles.container}>
-        <MapView
-          style={styles.map}
-          region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
-        >
-        </MapView>
-     // </View>
-    );
-  }
-   
-}
