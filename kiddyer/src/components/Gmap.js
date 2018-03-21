@@ -106,7 +106,7 @@ export default class Gmap extends Component {
                 followsUserLocation = {true}
                 loadingEnabled = {true}
               >
-              {this.state.markers.map(marker => (
+              {this.state.markers.map((marker, key) => (
                 <Marker
                   coordinate={marker.coordinate}
                   title={marker.title}
