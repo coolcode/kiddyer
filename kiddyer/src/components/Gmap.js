@@ -35,6 +35,7 @@ export default class Gmap extends Component {
         longitude: 151.1851586, 
       },
       markers: [{
+        key: "maker1",
         /*opera house */
         coordinate:{
           latitude: -33.8655721,
