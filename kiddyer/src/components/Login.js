@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Button, Text, Form, Item, Input } from 'native-base';
+import { Content, Button, Text, Form, Item, Input } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
-export default class Login extends Component { 
-  render() { 
+export default class Login extends Component {
+  render() {
     return (
-      <Container>
+
        <Content>
          <Form>
            <Item>
@@ -13,12 +14,15 @@ export default class Login extends Component {
            <Item>
              <Input placeholder="Password" secureTextEntry />
            </Item>
-           <Button block>
+           <Button
+             block
+             onPress={() => Actions.main()}
+           >
             <Text>Login!</Text>
           </Button>
          </Form>
        </Content>
-     </Container>
+
     );
   }
 }
