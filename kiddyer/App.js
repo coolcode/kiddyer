@@ -37,7 +37,7 @@ export default class App extends React.Component {
             rightTitle="Gmap"
             onRight={() => Actions.gmap()}
             />
-          <Scene key="gmap" component={Gmap} title="Gamp"
+          <Scene key="gmap" component={Gmap} title="Gmap"
               rightTitle="WebView"
               onRight={() => Actions.webview()} />
           <Scene key="webview" component={WebViewExample} title="WebView" 
