@@ -20,6 +20,7 @@
     "@expo/vector-icons": "^6.3.1",
     "eslint-config-rallycoding": "^3.2.0",
     "native-base": "^2.3.10",
+    "pubnub": "^4.20.2",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-maps": "^0.20.1",
