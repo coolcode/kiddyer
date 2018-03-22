@@ -28,13 +28,14 @@ const RouterComponent = () => {
 
         <Scene key="main">
           <Scene
+            hideNavBar
             key="family"
             component={FamilyList}
-            title="Family Group"
-            rightTitle="Invite"
-            leftTitle="Logout"
-            onRight={() => Actions.invite()}
-            onLeft={() => Actions.auth()}
+            // title="Family Group"
+            // rightTitle="Invite"
+            // leftTitle="Logout"
+            // onRight={() => Actions.invite()}
+            // onLeft={() => Actions.auth()}
             initial
           />
           <Scene

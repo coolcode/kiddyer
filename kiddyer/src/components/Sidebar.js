@@ -8,6 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { Button } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 export default class Sidebar extends Component {
   render() {
@@ -21,8 +22,11 @@ export default class Sidebar extends Component {
         <Button style={styles.button} block light><Text> Light </Text></Button>
         <Button style={styles.button} block primary><Text> Primary </Text></Button>
         <Button style={styles.button} block warning><Text> Warning </Text></Button>
-        <Button style={styles.button} block danger><Text> Danger </Text></Button>
-        <Button style={styles.button} block dark><Text> Dark </Text></Button>
+        <Button
+          style={styles.button} block danger
+          onPress={() => Actions.auth()}
+        ><Text> Logout </Text></Button>
+
       </ScrollView>
     );
   }

@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { Drawer, Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import CardImage from './CardImage';
 import FooterBadge from './FooterBadge';
@@ -36,7 +37,7 @@ export default class FamilyList extends Component {
               <Title>Family</Title>
             </Body>
             <Right>
-              <Button transparent>
+              <Button transparent onPress={() => Actions.invite()}>
                 <Icon name='subway' />
               </Button>
             </Right>
