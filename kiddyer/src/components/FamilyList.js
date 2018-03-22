@@ -38,7 +38,7 @@ export default class FamilyList extends Component {
             </Body>
             <Right>
               <Button transparent onPress={() => Actions.invite()}>
-                <Icon name='subway' />
+                <Icon name='add' />
               </Button>
             </Right>
           </Header>
