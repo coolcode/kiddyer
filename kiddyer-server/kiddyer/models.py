@@ -97,3 +97,10 @@ class AppGroup(models.Model):
 
     def __str__(self):
         return str(self.user_id)
+
+class AppTrack(models.Model):
+    user_id = models.IntegerField()
+    user_name = models.CharField(max_length=150)
+    location = models.CharField(max_length=1024)
+    coordinates = models.CharField(max_length=255)
+    create_Date = models.DateTimeField(auto_now_add=False, auto_now=True)

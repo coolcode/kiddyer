@@ -74,6 +74,11 @@ class AppGroupAdmin(admin.ModelAdmin):
     class Meta:
         model = models.AppGroup
 
+class AppTrackAdmin(admin.ModelAdmin):
+    list_display = ["user_id", "user_name", "location", "coordinates", "create_Date"]
+
+    class Meta:
+        model = models.AppTrack
 
 
 
@@ -87,3 +92,4 @@ admin.site.register(models.AuthUser, AuthUserAdmin)
 admin.site.register(models.AppUserGroup, AppUserGroupAdmin)
 admin.site.register(models.AppUserProfile, AppUserProfileAdmin)
 admin.site.register(models.AppGroup, AppGroupAdmin)
+admin.site.register(models.AppTrack, AppTrackAdmin)

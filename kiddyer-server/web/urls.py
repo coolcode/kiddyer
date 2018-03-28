@@ -22,13 +22,13 @@ from kiddyer import views, appviews
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-# router.register(r'authentication',views.AuthenticationViewSet)
+#router.register(r'user_group',views.APIShowFamilyGroupView)
 #router.register(r'login',views.login.as_view(), base_name='login')
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #url(r'^', include(router.urls)),
+    url(r'^', include(router.urls)),
     url(r'^api/', include(router.urls)),
     #api
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
@@ -49,8 +49,14 @@ urlpatterns = [
     #api/v1/group/{id}
     url(r'^api/v1/group/(?P<pk>[0-9]+)/$', views.APIDeleteFamilyGroupView.as_view(), name='api-v1-group-id'),
 
-    #api/v1/group/{id}
+    #api/v1/user_group/
     url(r'^api/v1/user_group/$', views.APIShowFamilyGroupView.as_view(), name='api-v1-usergroup'),
+
+    #api/v1/user_group/{id}
+    url(r'^api/v1/user_group/(?P<pk>[0-9]+)/$', views.APIQuitFamilyGroupView.as_view(), name='api-v1-usergroup-id'),
+
+    #api/v1/tracking/
+    url(r'^api/v1/tracking/$', views.APITrackLocationView.as_view(), name='api-v1-tracking'),
 ]
 
 

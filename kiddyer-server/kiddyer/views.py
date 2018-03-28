@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from django.http import HttpResponse, JsonResponse
+from rest_framework.renderers import JSONRenderer
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from rest_framework import viewsets
@@ -10,7 +12,6 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-import json
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -33,6 +34,8 @@ class GroupViewSet(viewsets.ModelViewSet):
 #     queryset = AuthUser.objects.all()
 #     serializer_class = AuthenticationSerializer
 
+
+#Authentition
 # url api/v1/user/register/
 class APIRegisterView(APIView):
 
@@ -74,6 +77,8 @@ class APILogoutView(APIView):
         return Response({'received data': request.data})
 
 
+
+#Family Group
 #url api/v1/group/
 class APICreateFamilyView(APIView):
 
@@ -99,12 +104,50 @@ class APIDeleteFamilyGroupView(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-#url api/v1/user_group/
+# url api/v1/user_group/
 class APIShowFamilyGroupView(APIView):
 
-    def get(self, request, format= None):
+    def get(self, request, *args, **kwargs):
         group_list = AppGroup.objects.all()
+        serializer_class = ShowFamilyGroupSerializer(instance=group_list, many=True)
+
+        return Response({'received data': serializer_class.data})
+# def showFamilyGroup(request):
+#     if request.method =='GET':
+#         group_list = AppGroup.objects.all()
+#         serializer_class = ShowFamilyGroupSerializer(group_list, many=True)
+#         content = JSONRenderer().render(serializer_class.data)
+#         print(content)
+#         # return JsonResponse(serializer_class.data, safe=False)
+#         return JsonResponse(serializer_class.data, safe=False)
+
+
+#url api/v1/user_group/{id}/
+class APIQuitFamilyGroupView(APIView):
+
+    def post(self, request, format=None):
+        return Response({'received data': request.data})
+
+
+
+#Location Tracking
+#url api/v1/tracking/
+class APITrackLocationView(APIView):
+
+    def post(self, request, format=None):
+        userName = request.data['userName']
+        time = request.data['time']
+
+        obj = AppTrack.objects.filter(user_name=userName, create_Date=time).get()
 
         return Response({'received data': request.data})
 
 
+class APIQueryLastLocation(APIView):
+
+    def get(self, request, format=None):
+        userName = request.data['userName']
+       # time = request.data['time']
+
+        obj = AppTrack.objects.filter(user_name=userName).latest('create_Date')
+        return Response({'received data': request.data})

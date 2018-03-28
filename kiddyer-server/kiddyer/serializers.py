@@ -14,6 +14,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'name')
 
 
+class ShowFamilyGroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AppGroup
+        fields= ('name', 'user_id', 'create_Date')
+
+
 
 # class AuthenticationSerializer(serializers.ModelSerializer):
 #     class Meta:
