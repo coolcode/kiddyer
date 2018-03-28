@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, TextInput, View, Button } from 'react-native';
+import { Content, Button, Text, Form, Item, Input } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
-export default class Register extends Component {
-    render() {
-        return (
-            <View><Text>Register Page</Text></View>
-        );
-    }
+export default class Login extends Component {
+  render() {
+    return (
+
+       <Content>
+         <Form>
+           <Item>
+             <Input placeholder="Email Address" />
+           </Item>
+           <Item>
+             <Input placeholder="Password" secureTextEntry />
+           </Item>
+           <Button
+             block
+             onPress={() => Actions.auth()}
+           >
+            <Text>Register</Text>
+          </Button>
+         </Form>
+       </Content>
+
+    );
+  }
 }

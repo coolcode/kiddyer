@@ -9,7 +9,7 @@ export default class Login extends Component {
        <Content>
          <Form>
            <Item>
-             <Input placeholder="Username" />
+             <Input placeholder="Email" />
            </Item>
            <Item>
              <Input placeholder="Password" secureTextEntry />
@@ -18,7 +18,7 @@ export default class Login extends Component {
              block
              onPress={() => Actions.main()}
            >
-            <Text>Login!</Text>
+            <Text>Login</Text>
           </Button>
          </Form>
        </Content>

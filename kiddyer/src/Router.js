@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import FamilyList from './components/FamilyList';
 import InviteMember from './components/InviteMember';
+import Gmap from './components/Gmap';
 
 const RouterComponent = () => {
   return (
@@ -37,6 +38,10 @@ const RouterComponent = () => {
             // onRight={() => Actions.invite()}
             // onLeft={() => Actions.auth()}
             initial
+          />
+          <Scene
+            key="gmap"
+            component={Gmap}
           />
           <Scene
             key="invite"
