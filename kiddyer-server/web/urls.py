@@ -57,6 +57,9 @@ urlpatterns = [
 
     #api/v1/tracking/
     url(r'^api/v1/tracking/$', views.APITrackLocationView.as_view(), name='api-v1-tracking'),
+
+    #api/v1/last_location/
+    url(r'^api/v1/last_location/$', views.APIQueryLastLocation.as_view(), name='api-v1-last-location'),
 ]
 
 

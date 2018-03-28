@@ -14,14 +14,31 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'name')
 
 
-class ShowFamilyGroupSerializer(serializers.HyperlinkedModelSerializer):
+class AppGroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AppGroup
-        fields= ('name', 'user_id', 'create_Date')
+        fields = ('name', 'user_id', 'create_Date')
+
+
+class AppTrackSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AppTrack
+        fields = ('user_id', 'location', 'coordinates', 'create_Date')
+
+class AppMsgSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AppMsg
+        fields = "__all__"
+
+
+class AppUserProfileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AppUserProfile
+        fields = "__all__"
 
 
 
-# class AuthenticationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = AuthUser
-#         fields = ('user_name', 'user_name', 'password', 'last_login', 'is_superuser')
+class AppUserProfileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = AppUserProfile
+        fields = "__all__"

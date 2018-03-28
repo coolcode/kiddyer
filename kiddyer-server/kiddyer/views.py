@@ -49,8 +49,7 @@ class APIRegisterView(APIView):
        # print("password: %s" %(password))
 
         user = User.objects.create_user(userName, email, password)
-        #user.save()
-        return Response({'received data': request.data})
+        return Response({'result data': request.data})
 
 
 #url api/v1/user/login/
@@ -74,44 +73,53 @@ class APILoginView(APIView):
 class APILogoutView(APIView):
 
     def post(self, request, format=None):
-        return Response({'received data': request.data})
+        return Response({'result data': request.data})
 
 
 
 #Family Group
 #url api/v1/group/
 class APICreateFamilyView(APIView):
-
+    #create family group
     def put(self, request, format=None):
         groupName = request.data['groupName']
         userId = request.data['userId']
-        group = AppGroup.objects.get_or_create(name=groupName, user_id=userId)
-        return Response({'received data': request.data})
+        obj, created = AppGroup.objects.get_or_create(name=groupName, user_id=userId)
+        if created:
+            return Response("Family Create Successfully")
+        else:
+            return Response("Family Create Failed")
 
+    #update family group
     def post(self, request, format=None):
         groupName = request.data['groupName']
         userId = request.data['userId']
-        AppGroup.objects.filter(user_id=userId).update(name=groupName)
-        return Response({'received data': request.data})
+        updated = AppGroup.objects.filter(user_id=userId).update(name=groupName)
+
+        if updated:
+            return Response("Update Successfully")
+        else:
+            return Response("Update Failed")
 
 #url api/v1/group/{id}
 class APIDeleteFamilyGroupView(APIView):
 
     def delete(self, request, pk, format=None):
        # print("username: %s" % (pk))
-        group = AppGroup.objects.filter(user_id=pk).delete()
-
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        deleted, rows_count = AppGroup.objects.filter(user_id=pk).delete()
+        if deleted:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 # url api/v1/user_group/
 class APIShowFamilyGroupView(APIView):
 
     def get(self, request, *args, **kwargs):
         group_list = AppGroup.objects.all()
-        serializer_class = ShowFamilyGroupSerializer(instance=group_list, many=True)
+        serializer_class = AppGroupSerializer(instance=group_list, many=True)
 
-        return Response({'received data': serializer_class.data})
+        return Response({'result data': serializer_class.data})
 # def showFamilyGroup(request):
 #     if request.method =='GET':
 #         group_list = AppGroup.objects.all()
@@ -126,7 +134,7 @@ class APIShowFamilyGroupView(APIView):
 class APIQuitFamilyGroupView(APIView):
 
     def post(self, request, format=None):
-        return Response({'received data': request.data})
+        return Response({'result data': request.data})
 
 
 
@@ -135,19 +143,25 @@ class APIQuitFamilyGroupView(APIView):
 class APITrackLocationView(APIView):
 
     def post(self, request, format=None):
-        userName = request.data['userName']
+        userId = request.data['userId']
+        location = request.data['location']
+        coordinates = request.data['coordinates']
         time = request.data['time']
+        obj, created = AppTrack.objects.get_or_create(user_id=userId, location=location, coordinates=coordinates, create_Date=time)
 
-        obj = AppTrack.objects.filter(user_name=userName, create_Date=time).get()
+        if created:
+            return Response("Track Location Successfully")
+        else:
+            return Response("Track Location Failed")
 
-        return Response({'received data': request.data})
-
-
+#url api/v1/last_location/
 class APIQueryLastLocation(APIView):
 
     def get(self, request, format=None):
-        userName = request.data['userName']
-       # time = request.data['time']
+        userId = request.query_params.get('userid')
 
-        obj = AppTrack.objects.filter(user_name=userName).latest('create_Date')
-        return Response({'received data': request.data})
+       # time = request.data['time']
+        obj = AppTrack.objects.filter(user_id=userId).latest('create_Date')
+        serializer_class = AppTrackSerializer(instance=obj, many=False)
+        print(obj)
+        return Response({'result data': serializer_class.data})

@@ -75,7 +75,7 @@ class AppGroupAdmin(admin.ModelAdmin):
         model = models.AppGroup
 
 class AppTrackAdmin(admin.ModelAdmin):
-    list_display = ["user_id", "user_name", "location", "coordinates", "create_Date"]
+    list_display = ["user_id", "location", "coordinates", "create_Date"]
 
     class Meta:
         model = models.AppTrack
