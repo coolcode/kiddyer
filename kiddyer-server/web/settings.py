@@ -86,7 +86,7 @@ DATABASES = {
             'NAME': 'kiddyer',
             'USER': 'kiddy',
             'PASSWORD': 'kiddyerisawesome',
-            'HOST': 'mysql.yopo.world',
+            'HOST': 'mysql.kiddyer.com',
             'PORT': '',
         }
 }
