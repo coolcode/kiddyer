@@ -84,7 +84,7 @@ class AppUserProfile(models.Model):
     user_id = models.IntegerField()
     icon = models.CharField(max_length=4096)
     mobile_num =models.CharField(max_length=20)
-    create_Date = models.DateTimeField(auto_now_add=True, auto_now=False)
+    create_Date = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __str__(self):
         return str(self.user_id)

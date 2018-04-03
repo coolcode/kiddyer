@@ -196,15 +196,13 @@ class APIUpdateUserProfileView(APIView):
 
     def post(self, request, format=None):
         userId = request.data['userId']
-        print(userId)
-        userId = int(userId)
-        print(userId)
+        userId_Int = int(userId)
         icon = request.data['icon']
         mobileNum = request.data['mobileNo']
         date = request.data['date']
 
-        obj = AppUserProfile.objects.filter(user_id=userId).update(icon=icon, mobile_num=mobileNum)
+        obj = AppUserProfile.objects.filter(user_id=userId_Int).update(icon=icon, mobile_num=mobileNum)
 
         serializer_class = AppUserProfileSerializer(instance=obj)
 
-        return Response({'result data': serializer_class.data})
+        return Response({'result data': ""})
