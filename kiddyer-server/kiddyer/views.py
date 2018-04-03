@@ -201,7 +201,7 @@ class APIUpdateUserProfileView(APIView):
         mobileNum = request.data['mobileNo']
         date = request.data['date']
 
-        obj = AppUserProfile.objects.filter(user_id=userId_Int).update(icon=icon, mobile_num=mobileNum)
+        obj = AppUserProfile.objects.filter(user_id=userId_Int).update(icon=icon, mobile_num=mobileNum, create_Date= date)
 
         serializer_class = AppUserProfileSerializer(instance=obj)
 
