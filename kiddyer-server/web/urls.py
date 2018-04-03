@@ -59,7 +59,16 @@ urlpatterns = [
     url(r'^api/v1/tracking/$', views.APITrackLocationView.as_view(), name='api-v1-tracking'),
 
     #api/v1/last_location/
-    url(r'^api/v1/last_location/$', views.APIQueryLastLocation.as_view(), name='api-v1-last-location'),
+    url(r'^api/v1/last_location/$', views.APIQueryLastLocationView.as_view(), name='api-v1-last-location'),
+
+    #api/v1/tracking_history/
+    url(r'^api/v1/tracking_history/$', views.APIQueryLocationHistoryView.as_view(), name='api-v1-tracking-history'),
+
+    #api/v1/msg/
+    url(r'^api/v1/msg/$', views.APISendMessageView.as_view(), name='api-v1-msg'),
+
+    #api/v1/user_profile/
+    url(r'^api/v1/user_profile/$', views.APIUpdateUserProfileView.as_view(), name='api-v1-update-profile'),
 ]
 
 

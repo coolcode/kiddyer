@@ -28,17 +28,14 @@ class AppTrackSerializer(serializers.HyperlinkedModelSerializer):
 class AppMsgSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AppMsg
-        fields = "__all__"
+        fields = ('sender', 'receiver', 'content', 'type', 'attachment', 'create_Date')
 
 
 class AppUserProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AppUserProfile
-        fields = "__all__"
+        fields = ('user_id', 'icon', 'mobile_num', 'create_Date')
 
 
 
-class AppUserProfileSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = AppUserProfile
-        fields = "__all__"
+

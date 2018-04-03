@@ -138,7 +138,7 @@ class APIQuitFamilyGroupView(APIView):
 
 
 
-#Location Tracking
+#Location Tracking API
 #url api/v1/tracking/
 class APITrackLocationView(APIView):
 
@@ -155,13 +155,56 @@ class APITrackLocationView(APIView):
             return Response("Track Location Failed")
 
 #url api/v1/last_location/
-class APIQueryLastLocation(APIView):
+class APIQueryLastLocationView(APIView):
 
     def get(self, request, format=None):
         userId = request.query_params.get('userid')
-
-       # time = request.data['time']
         obj = AppTrack.objects.filter(user_id=userId).latest('create_Date')
-        serializer_class = AppTrackSerializer(instance=obj, many=False)
-        print(obj)
+        serializer_class = AppTrackSerializer(instance=obj, many=True)
+
+        return Response({'result data': serializer_class.data})
+
+
+#url api/v1/tracking_history/
+class APIQueryLocationHistoryView(APIView):
+
+    def get(self, request, format=None):
+        userId = request.query_params.get('userid')
+        obj_list = AppTrack.objects.filter(user_id=userId).all()
+        serializer_class = AppTrackSerializer(instance=obj_list, many=True)
+
+        return Response({'result data': serializer_class.data})
+
+
+#Chat API
+#url api/v1/msg/
+class APISendMessageView(APIView):
+
+    def post(self, request, format=None):
+        sender = request.data['sender']
+        obj = AppMsg.objects.get(sender=sender)
+        serializer_class = AppMsgSerializer(instance=obj)
+
+        return Response({'result data': serializer_class.data})
+
+
+
+#User Profile API
+#url api/v1/user_profile/
+
+class APIUpdateUserProfileView(APIView):
+
+    def post(self, request, format=None):
+        userId = request.data['userId']
+        print(userId)
+        userId = int(userId)
+        print(userId)
+        icon = request.data['icon']
+        mobileNum = request.data['mobileNo']
+        date = request.data['date']
+
+        obj = AppUserProfile.objects.filter(user_id=userId).update(icon=icon, mobile_num=mobileNum)
+
+        serializer_class = AppUserProfileSerializer(instance=obj)
+
         return Response({'result data': serializer_class.data})
