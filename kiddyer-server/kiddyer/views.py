@@ -158,7 +158,7 @@ class APITrackLocationView(APIView):
 class APIQueryLastLocationView(APIView):
 
     def get(self, request, format=None):
-        userId = request.query_params.get('userid')
+        userId = request.query_params.get('userId')
         obj = AppTrack.objects.filter(user_id=userId).latest('create_Date')
         serializer_class = AppTrackSerializer(instance=obj, many=True)
 
@@ -169,7 +169,7 @@ class APIQueryLastLocationView(APIView):
 class APIQueryLocationHistoryView(APIView):
 
     def get(self, request, format=None):
-        userId = request.query_params.get('userid')
+        userId = request.query_params.get('userId')
         obj_list = AppTrack.objects.filter(user_id=userId).all()
         serializer_class = AppTrackSerializer(instance=obj_list, many=True)
 
@@ -205,4 +205,22 @@ class APIUpdateUserProfileView(APIView):
 
         serializer_class = AppUserProfileSerializer(instance=obj)
 
-        return Response({'result data': ""})
+        return Response({'result data': "Success"})
+
+    # def get(self, request, format=None):
+    #     userId = request.query_params.get('userId')
+    #     obj = AppUserProfile.objects.filter(user_id=userId).get()
+    #     serializer_class = AppUserProfileSerializer(instance=obj)
+    #
+    #     return Response({'result data': serializer_class.data})
+
+#url api/v1/user_profile/{user_id}
+class APIGetUserProfileView(APIView):
+
+    def get(self, request, pk, format=None):
+        obj = AppUserProfile.objects.filter(user_id=pk).get()
+        serializer_class = AppUserProfileSerializer(instance=obj)
+
+        return Response({'result data': serializer_class.data})
+
+

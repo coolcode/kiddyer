@@ -69,6 +69,10 @@ urlpatterns = [
 
     #api/v1/user_profile/
     url(r'^api/v1/user_profile/$', views.APIUpdateUserProfileView.as_view(), name='api-v1-update-profile'),
+
+    #api/v1/user_profile/
+    url(r'^api/v1/user_profile/(?P<pk>[0-9]+)$', views.APIGetUserProfileView.as_view(), name='api-v1-get-profile'),
+
 ]
 
 
