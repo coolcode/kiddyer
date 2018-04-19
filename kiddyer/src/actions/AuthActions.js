@@ -5,6 +5,8 @@ import { EMAIL_CHANGED,
          LOGIN_USER_SUCCESS,
          LOGIN_USER_FAIL,
          LOGIN_USER,
+         CREATE_USER_FAIL,
+         CREATE_USER_SUCCESS,
        } from './types';
 
 export const emailChanged = (text) => {
@@ -30,11 +32,18 @@ export const loginUser = ({ email, password }) => {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(user => loginUserSuccess(dispatch, user))
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(user => loginUserSuccess(dispatch, user))
-          .catch(() => loginUserFail(dispatch));
-      });
+      .catch(() => loginUserFail(dispatch));
+  };
+};
+
+
+export const createUser = ({ email, password }) => {
+  return (dispatch) => {
+    dispatch({ type: LOGIN_USER });
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => createUserSuccess(dispatch))
+      .catch(() => createUserFail(dispatch));
   };
 };
 
@@ -49,4 +58,12 @@ const loginUserSuccess = (dispatch, user) => {
   });
 
   Actions.main();
+};
+
+const createUserFail = (dispatch) => {
+  dispatch({ type: CREATE_USER_FAIL });
+};
+
+const createUserSuccess = (dispatch) => {
+  dispatch({ type: CREATE_USER_SUCCESS });
 };
