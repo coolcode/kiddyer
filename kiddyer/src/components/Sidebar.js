@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
+import firebase from 'firebase';
 import { Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
