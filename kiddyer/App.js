@@ -11,17 +11,26 @@ import reducers from './src/reducers';
 export default class App extends React.Component {
 
 componentWillMount() {
-  firebase.initializeApp(
-    {
-        apiKey: 'AIzaSyACti3poX0jG2tGD6cS-uZ25fDgHwDMorw',
-        authDomain: 'kiddyer-capstone.firebaseapp.com',
-        databaseURL: 'https://kiddyer-capstone.firebaseio.com',
-        projectId: 'kiddyer-capstone',
-        storageBucket: '',
-        messagingSenderId: '226025468668'
-    }
-  );
-  }
+  const firebaseConf_Will = {
+    apiKey: 'AIzaSyACti3poX0jG2tGD6cS-uZ25fDgHwDMorw',
+    authDomain: 'kiddyer-capstone.firebaseapp.com',
+    databaseURL: 'https://kiddyer-capstone.firebaseio.com',
+    projectId: 'kiddyer-capstone',
+    storageBucket: '',
+    messagingSenderId: '226025468668'
+  };
+
+  const firebaseConf_Bruce = {
+    apiKey: 'AIzaSyB7tQOQDyedWRypB4e301jHgzYPBJYf9wM',
+    authDomain: 'kiddyer-1521547598504.firebaseapp.com',
+    databaseURL: 'https://kiddyer-1521547598504.firebaseio.com',
+    projectId: 'kiddyer-1521547598504',
+    storageBucket: '',
+    messagingSenderId: '226025468668'
+  };
+
+  firebase.initializeApp( firebaseConf_Will );
+}
 
 
 render() {

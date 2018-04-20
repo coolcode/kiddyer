@@ -4,6 +4,7 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
+  CREATE_USER,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAIL
 } from '../actions/types';
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
   user: null,
   error: '',
   loading: false,
+  message: 'Hello'
  };
 
 export default (state = INITIAL_STATE, action) => {
@@ -40,13 +42,17 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state, error: 'Authentication Failed', password: '', loading: false
       };
+    case CREATE_USER:
+        return {
+          ...state, loading: true, error: 'Please Input Your Info.'
+        };
     case CREATE_USER_SUCCESS:
       return {
-        ...state, error: 'Successful Register!', loading: false, email: '', password: ''
+        ...state, user: action.payload, error: `${action.message}`, loading: false, email: '', password: ''
       };
     case CREATE_USER_FAIL:
       return {
-        ...state, error: 'This Email Address Has Been Used', loading: false, email: '', password: ''
+        ...state, error: `${action.message}`, loading: false, password: ''
       };
 
     default:
