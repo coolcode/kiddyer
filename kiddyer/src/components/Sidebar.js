@@ -14,14 +14,11 @@ export default class Sidebar extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.text}>Menu</Text>
-        <Image
-          source={require('./img3.jpeg')}
-          style={styles.topimage}
-        />
-        <Button style={styles.button} block light><Text> Light </Text></Button>
-        <Button style={styles.button} block primary><Text> Primary </Text></Button>
-        <Button style={styles.button} block warning><Text> Warning </Text></Button>
+        <Text style={styles.text}>Menu</Text>       
+        <Button style={styles.button} block primary><Text> User Profile </Text></Button>
+        <Button style={styles.button} block light onPress={() => Actions.familyList()}><Text> Manage Member Group</Text></Button>
+        <Button style={styles.button} block light><Text> Message</Text></Button>
+        <Button style={styles.button} block light><Text> Location History</Text></Button>
         <Button
           style={styles.button} block danger
           onPress={() => Actions.auth()}
@@ -40,8 +37,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    marginTop: 50,
+    marginTop: 10,
     marginLeft: 10,
+    fontSize: 36,
   },
   topImage: {
     width: '100%',

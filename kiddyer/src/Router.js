@@ -6,6 +6,7 @@ import Register from './components/Register';
 import FamilyList from './components/FamilyList';
 import InviteMember from './components/InviteMember';
 import Gmap from './components/Gmap';
+import UserProfile from './components/UserProfile';
 
 const RouterComponent = () => {
   return (
@@ -29,6 +30,11 @@ const RouterComponent = () => {
 
         <Scene key="main">
           <Scene
+            key="userprofile"
+            component={UserProfile}
+            title="Profile"
+          />
+          <Scene
             hideNavBar
             key="family"
             component={FamilyList}
@@ -40,13 +46,13 @@ const RouterComponent = () => {
             initial
           />
           <Scene
-            key="gmap"
-            component={Gmap}
-          />
-          <Scene
             key="invite"
             component={InviteMember}
             title="Invite"
+          />
+          <Scene
+            key="gmap"
+            component={Gmap}
           />
         </Scene>
       </Scene>

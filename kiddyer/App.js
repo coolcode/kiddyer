@@ -29,7 +29,7 @@ componentWillMount() {
     messagingSenderId: '226025468668'
   };
 
-  firebase.initializeApp( firebaseConf_Will );
+  firebase.initializeApp( firebaseConf_Bruce );
 }
 
 

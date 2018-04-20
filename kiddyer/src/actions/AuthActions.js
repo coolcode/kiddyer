@@ -8,6 +8,7 @@ import { EMAIL_CHANGED,
          CREATE_USER,
          CREATE_USER_FAIL,
          CREATE_USER_SUCCESS,
+         UPDATE_USER
        } from './types';
 
 export const emailChanged = (text) => {
@@ -75,4 +76,13 @@ const createUserSuccess = (dispatch, user) => {
     message: "UserID: " + user.uid,
     payload: user
   });
+};
+
+
+export const updateUser = ({uid, email, password }) => {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_USER });
+
+    //TODO: update user profile firebase.auth()
+  };
 };
