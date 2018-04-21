@@ -69,7 +69,7 @@ export default (state = INITIAL_STATE, action) => {
       };
     case UPDATE_USER_SUCCESS:
       return {
-        ...state, loading: false, user: action.payload, password: '', error: 'Update Success'
+        ...state, loading: false, user: action.payload, password: '', currentPassword: '', error: 'Update Success'
       };
     case UPDATE_USER_FAIL:
       return {

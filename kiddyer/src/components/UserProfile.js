@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Content, Form, Item, Input, Button, Text, View, Spinner } from 'native-base';
+import { Container, Content, Form, Item, Input, Button, Text, View, Spinner, Grid, Row } from 'native-base';
 import { emailChanged, passwordChanged, updateUser, currentPasswordChanged } from '../actions';
 
 class UserProfile extends Component {
@@ -48,35 +48,35 @@ class UserProfile extends Component {
       );
     }
 
+
   render() {
     return (
       <Container>
         <Content>
-          <Form>
-            <Item>
-              <Text>Your Email Account: {this.props.email}</Text>
-            </Item>
-            <Item>
-              <Input
-                secureTextEntry
-                placeholder="Old Password"
-                onChangeText={this.onCurrentPasswordChange.bind(this)}
-                autoCapitalize="none"
-                value={this.props.currentPassword}
-              />
-
-            </Item>
-            <Item last>
-              <Input
-                secureTextEntry
-                placeholder="New Password"
-                onChangeText={this.onPasswordChange.bind(this)}
-                value={this.props.password}
-              />
-            </Item>
-          </Form>
-          {this.renderError()}
-          {this.renderButton()}
+            <Form>
+                <Item style={{ height: 50 }}>
+                  <Text>Your Email Account: {this.props.email}</Text>
+                </Item>
+                <Item>
+                  <Input
+                    secureTextEntry
+                    placeholder="Old Password"
+                    onChangeText={this.onCurrentPasswordChange.bind(this)}
+                    autoCapitalize="none"
+                    value={this.props.currentPassword}
+                  />
+                </Item>
+                <Item last>
+                  <Input
+                    secureTextEntry
+                    placeholder="New Password"
+                    onChangeText={this.onPasswordChange.bind(this)}
+                    value={this.props.password}
+                  />
+                </Item>
+            </Form>
+            {this.renderError()}
+            {this.renderButton()}
         </Content>
       </Container>
     );
