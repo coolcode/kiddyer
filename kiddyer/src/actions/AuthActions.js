@@ -2,13 +2,16 @@ import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import { EMAIL_CHANGED,
          PASSWORD_CHANGED,
+         CURRENT_PASSWORD,
          LOGIN_USER_SUCCESS,
          LOGIN_USER_FAIL,
          LOGIN_USER,
          CREATE_USER,
          CREATE_USER_FAIL,
          CREATE_USER_SUCCESS,
-         UPDATE_USER
+         UPDATE_USER,
+         UPDATE_USER_SUCCESS,
+         UPDATE_USER_FAIL,
        } from './types';
 
 export const emailChanged = (text) => {
@@ -23,6 +26,13 @@ export const passwordChanged = (text) => {
   return {
     type: PASSWORD_CHANGED,
     payload: text,
+  };
+};
+
+export const currentPasswordChanged = (text) => {
+  return {
+    type: CURRENT_PASSWORD,
+    payload: text
   };
 };
 
@@ -71,18 +81,57 @@ const createUserFail = (dispatch, error) => {
 
 const createUserSuccess = (dispatch, user) => {
   //Alert.alert("Info", "Create User: " + user.uid);
-  dispatch({ 
+  dispatch({
     type: CREATE_USER_SUCCESS,
-    message: "UserID: " + user.uid,
+    message: `UserID: ${user.uid}`,
     payload: user
   });
 };
 
 
-export const updateUser = ({uid, email, password }) => {
+export const updateUser = ({ currentPassword, password }) => {
   return (dispatch) => {
     dispatch({ type: UPDATE_USER });
+    //
+    // firebase.auth().currentUser.updateEmail(email)
+    //   .then(user => updateUserSuccess(dispatch, user))
+    //   .catch(error => updateUserFail(dispatch, error));
+    // const userLogin = firebase.auth().currentUser;
+    //
+    // if (userLogin) {
+    //   userLogin.updatePassword(password)
+    //     .then(user => updateUserSuccess(dispatch, user))
+    //     .catch(error => updateUserFail(dispatch, error));
+    // } else {
+    //   Actions.auth();
+    // }
+    reauthenticate(currentPassword)
+      .then(() => {
+        const currentUser = firebase.auth().currentUser;
 
+        currentUser.updatePassword(password)
+          .then(user => updateUserSuccess(dispatch, user))
+          .catch(error => updateUserFail(dispatch, error));
+        });
     //TODO: update user profile firebase.auth()
+    };
   };
+
+
+const updateUserSuccess = (dispatch, user) => {
+  dispatch({
+    type: UPDATE_USER_SUCCESS,
+    payload: user
+  });
+};
+
+const updateUserFail = (dispatch) => {
+  dispatch({ type: UPDATE_USER_FAIL });
+};
+
+const reauthenticate = (currentPassword) => {
+    const user = firebase.auth().currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(
+        user.email, currentPassword);
+  return user.reauthenticateWithCredential(cred);
 };
