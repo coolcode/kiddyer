@@ -21,6 +21,7 @@ export const groupNameChanged = (text) => {
 export const createMemberGroup = ({ groupName }) => {
     return (dispatch) => {
       dispatch({ type: CREATE_MEMBERGROUP });  
+
       const user = firebase.auth().currentUser;
       let data = { 
         groupName: groupName,
@@ -32,6 +33,8 @@ export const createMemberGroup = ({ groupName }) => {
       updates['/member_group/' + user.uid + '/'+ key] = data;
       firebase.database().ref().update(updates);
 
-      dispatch({ type: CREATE_MEMBERGROUP_SUCCESS, message: 'Saved!' });  
+      //dispatch({ type: CREATE_MEMBERGROUP_SUCCESS, message: 'Saved!' });  
+
+      Actions.family();
     };
 };
