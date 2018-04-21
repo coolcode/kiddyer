@@ -7,6 +7,8 @@ import FamilyList from './components/FamilyList';
 import InviteMember from './components/InviteMember';
 import Gmap from './components/Gmap';
 import UserProfile from './components/UserProfile';
+import Message from './components/Message';
+import LocationHistory from './components/LocationHistory';
 
 const RouterComponent = () => {
   return (
@@ -57,6 +59,14 @@ const RouterComponent = () => {
           <Scene
             key="profile"
             component={UserProfile}
+          />
+          <Scene
+            key="message"
+            component={Message}
+          />
+          <Scene
+            key="locationHistory"
+            component={LocationHistory}
           />
         </Scene>
       </Scene>
