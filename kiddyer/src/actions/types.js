@@ -7,3 +7,9 @@ export const CREATE_USER_FAIL = 'create_user_fail';
 export const CREATE_USER_SUCCESS = 'create_user_success';
 export const CREATE_USER = 'create_user';
 export const UPDATE_USER = 'update_user';
+
+
+/* family member group */
+export const CREATE_MEMBERGROUP = 'create_membergroup';
+export const CREATE_MEMBERGROUP_SUCCESS = 'create_membergroup_success';
+export const CREATE_MEMBERGROUP_FAIL = 'create_membergroup_fail';

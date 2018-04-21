@@ -1,68 +1,80 @@
-/* @flow */
-
 import React, { Component } from 'react';
-import {
-  Text,
-  Image,
-} from 'react-native';
-import { Container, Header, Item, Input, Icon, Button, Card, CardItem, Thumbnail, Left, Body, Right } from 'native-base';
+import { connect } from 'react-redux';
+import { Container, Content, Form, Item, Input, Button, Text, View, Spinner } from 'native-base';
+import { groupNameChanged, createMemberGroup } from '../actions';
 
 class InviteMember extends Component {
-
-  state = {
-    searched: false,
-  };
-
-  onButtonPress() {
-    this.setState({ searched: true });
+ 
+  onGroupNameChange(text){
+    this.props.groupNameChanged(text);
   }
 
-  renderCard() {
-      if (this.state.searched) {
-        return (
-          <Card>
-            <CardItem>
-              <Left>
-                <Thumbnail source={require('./img3.jpeg')} />
-                <Body>
-                  <Text>Yahui Liu</Text>
-                  <Text note>Daddy</Text>
-                </Body>
-              </Left>
-              <Right>
-                <Button transparent>
-                  <Text>Add</Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
-        );
-      }
+  onButtonPress() { 
+    const { groupName } = this.props;
+    this.props.createMemberGroup({ groupName });
+  }
+ 
+  renderError() {
+    if (this.props.error) {
       return (
-        <Text>Search Your Member</Text>
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={styles.errorTextStyle}>
+            {this.props.error}
+          </Text>
+        </View>
       );
+    }
+  }
+
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner color='blue' />;
+    }
+    return (
+      <Button
+        block style={{ marginTop: 10 }}
+        onPress={this.onButtonPress.bind(this)}
+      >
+          <Text> Save </Text>
+      </Button>
+    );
   }
 
   render() {
     return (
       <Container>
-        <Header searchBar rounded>
+        <Content>
+          <Form>
             <Item>
-              <Icon name="ios-search" />
-              <Input placeholder="Search" />
-              <Icon name="ios-people" />
-            </Item>
-            <Button transparent onPress={this.onButtonPress.bind(this)}>
-              <Text>Search</Text>
-            </Button>
-        </Header>
-
-        {this.renderCard()}
-
+              <Input
+                placeholder="Group Name" 
+                autoCapitalize="none"
+                onChangeText={this.onGroupNameChange.bind(this)}
+                value={this.props.groupName}
+              />
+            </Item> 
+          </Form>
+          {this.renderError()}
+          {this.renderButton()}
+        </Content>
       </Container>
     );
   }
 }
 
+const styles = {
+  errorTextStyle: {
+    fontSize: 15,
+    alignSelf: 'center',
+    color: 'red',
+  }
+};
 
-export default InviteMember;
+// mapStateToProps 完成了 reducer state 到 component props，为了链接对应的action，使用connect 链接reducer state 和 actions
+const mapStateToProps = state => {
+  return {
+    groupName: state.famy.groupName
+  };
+};
+
+export default connect(mapStateToProps, { groupNameChanged, createMemberGroup })(InviteMember);
