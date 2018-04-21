@@ -5,7 +5,6 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  Image,
 } from 'react-native';
 import { Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
@@ -14,8 +13,8 @@ export default class Sidebar extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.text}>Menu</Text>       
-        <Button style={styles.button} block primary><Text> User Profile </Text></Button>
+        <Text style={styles.text}>Menu</Text>
+        <Button style={styles.button} block primary onPress={() => Actions.profile()}><Text> User Profile </Text></Button>
         <Button style={styles.button} block light onPress={() => Actions.familyList()}><Text> Manage Member Group</Text></Button>
         <Button style={styles.button} block light><Text> Message</Text></Button>
         <Button style={styles.button} block light><Text> Location History</Text></Button>

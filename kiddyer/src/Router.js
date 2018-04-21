@@ -54,6 +54,10 @@ const RouterComponent = () => {
             key="gmap"
             component={Gmap}
           />
+          <Scene
+            key="profile"
+            component={UserProfile}
+          />
         </Scene>
       </Scene>
     </Router>
