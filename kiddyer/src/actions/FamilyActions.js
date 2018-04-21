@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import { 
     GROUPNAME_CHANGED,
     CREATE_MEMBERGROUP, 
@@ -8,9 +9,11 @@ import {
 //import cryptoRandomString from 'crypto-random-string';
 
 export const groupNameChanged = (text) => {
-    return {
-      type: GROUPNAME_CHANGED,
-      groupName: text,
+    return (dispatch) => {
+      dispatch({ 
+        type: GROUPNAME_CHANGED,
+        groupName: text
+      });
     };
   };
 

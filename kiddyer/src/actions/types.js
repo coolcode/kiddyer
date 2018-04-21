@@ -13,6 +13,7 @@ export const UPDATE_USER_FAIL = 'update_user_fail';
 
 
 /* family member group */
+export const GROUPNAME_CHANGED = 'groupname_changed';
 export const CREATE_MEMBERGROUP = 'create_membergroup';
 export const CREATE_MEMBERGROUP_SUCCESS = 'create_membergroup_success';
 export const CREATE_MEMBERGROUP_FAIL = 'create_membergroup_fail';
