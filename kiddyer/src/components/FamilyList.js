@@ -70,7 +70,7 @@ export default class FamilyList extends Component {
               </Button>
             </Left>
             <Body>
-              <Title>Family</Title>
+              <Title>Member Group</Title>
             </Body>
             <Right>
               <Button transparent onPress={() => this.refreshData()}>
