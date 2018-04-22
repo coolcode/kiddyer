@@ -1,8 +1,9 @@
 /* @flow */
 
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
+import { RefreshControl } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Drawer, Container, Header, Left, Body, Right, Button, Icon, Title, List, ListItem, Thumbnail, Text } from 'native-base';
+import { Drawer, Container, Header, Left, Body, Right, Button, Icon, Title, List, ListItem, Thumbnail, Text, Content } from 'native-base';
 //import CardImage from './CardImage';
 import FooterBadge from './FooterBadge';
 import Sidebar from './Sidebar';
@@ -12,13 +13,16 @@ export default class FamilyList extends Component {
   constructor(props) {
     super(props);
 
-    const user = firebase.auth().currentUser; 
-    this.groupsRef = firebase.database().ref('member_group/'+ user.uid).limitToLast(100); 
-    
+    const user = firebase.auth().currentUser;
+    this.groupsRef = firebase.database().ref('member_group/'+ user.uid).limitToLast(100);
+
     this.state = {
-      items: []
+      items: [],
+      refreshing: false,
     };
   }
+
+
 
   closeDrawer() {
     this.drawer._root.close();
@@ -37,13 +41,13 @@ export default class FamilyList extends Component {
       var items = [];
       groups.forEach( (item)=> {
         var key = item.key;
-        var val = item.val(); 
+        var val = item.val();
         items.push({
-          key, 
-          groupName: val.groupName, 
+          key,
+          groupName: val.groupName,
           groupCode: val.groupCode
         });
-        
+
       });
       this.setState({items: items});
     });
@@ -53,8 +57,15 @@ export default class FamilyList extends Component {
     // start listening for firebase updates
     this.listenForDatabases(this.groupsRef);
   }
-  
-  render() { 
+
+  // re-fetch the data to replace the console.log
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    console.log('hi');
+    this.setState({ refreshing: false });
+  }
+
+  render() {
     return (
       <Drawer
        ref={(ref) => { this.drawer = ref; }}
@@ -76,29 +87,39 @@ export default class FamilyList extends Component {
               <Button transparent onPress={() => this.refreshData()}>
                 <Icon name='refresh' />
               </Button>
-              <Button transparent onPress={() => Actions.invite()}> 
+              <Button transparent onPress={() => Actions.invite()}>
                 <Icon name='add' />
               </Button>
             </Right>
           </Header>
+          <Content
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+                }
+          >
+                <List
+                  dataArray={this.state.items}
+                  renderRow={(item) => (
+                    <ListItem avatar>
+                      <Left>
+                        <Thumbnail source={{ uri: 'http://res.cloudinary.com/yopo/image/upload/v1509365714/kiddyer/baby-laughing-icon.png' }} />
+                      </Left>
+                      <Body>
+                        <Text>{item.groupName}</Text>
+                        <Text note>{item.groupCode}</Text>
+                      </Body>
+                      <Right>
+                        <Text note>3:43 pm</Text>
+                      </Right>
+                    </ListItem>
+                  )}
+                />
+          </Content>
 
-          <List
-            dataArray={this.state.items}
-            renderRow={(item) => (
-              <ListItem avatar>
-                <Left>
-                  <Thumbnail source={{ uri: 'http://res.cloudinary.com/yopo/image/upload/v1509365714/kiddyer/baby-laughing-icon.png' }} />
-                </Left>
-                <Body>
-                  <Text>{item.groupName}</Text>
-                  <Text note>{item.groupCode}</Text>
-                </Body>
-                <Right>
-                  <Text note>3:43 pm</Text>
-                </Right>
-              </ListItem> 
-            )} 
-          />
+
        </Container>
       <FooterBadge />
      </Drawer>
