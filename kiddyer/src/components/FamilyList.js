@@ -105,7 +105,7 @@ export default class FamilyList extends Component {
                   renderRow={(item) => (
                     <ListItem avatar>
                       <Left>
-                        <Thumbnail source={{ uri: 'http://res.cloudinary.com/yopo/image/upload/v1509365714/kiddyer/baby-laughing-icon.png' }} />
+                        <Thumbnail square size={80} source={{ uri: 'http://res.cloudinary.com/yopo/image/upload/v1509365714/kiddyer/baby-laughing-icon.png' }} />
                       </Left>
                       <Body>
                         <Text>{item.groupName}</Text>
