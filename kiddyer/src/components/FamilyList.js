@@ -66,6 +66,8 @@ export default class FamilyList extends Component {
   }
 
   render() {
+    //var firstImage = require('../images/01.jpg');
+
     return (
       <Drawer
        ref={(ref) => { this.drawer = ref; }}
@@ -105,7 +107,11 @@ export default class FamilyList extends Component {
                   renderRow={(item) => (
                     <ListItem avatar>
                       <Left>
+<<<<<<< HEAD
                         <Thumbnail square size={80} source={{ uri: 'http://res.cloudinary.com/yopo/image/upload/v1509365714/kiddyer/baby-laughing-icon.png' }} />
+=======
+                        <Thumbnail source={require('../assets/img/child.png') } />
+>>>>>>> 99ebcafd1889c3af16095d117363b8ad80501fee
                       </Left>
                       <Body>
                         <Text>{item.groupName}</Text>
