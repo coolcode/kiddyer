@@ -18,16 +18,21 @@ export const groupNameChanged = (text) => {
   };
 
   
-export const createMemberGroup = ({ groupName }) => {
+export const createMemberGroup = ({ groupKey, groupName }) => {
     return (dispatch) => {
       dispatch({ type: CREATE_MEMBERGROUP });  
 
       const user = firebase.auth().currentUser;
+      const randcode = Math.random().toString(36).slice(-6);
       let data = { 
         groupName: groupName,
-        groupCode: ''
+        groupCode: randcode
       };
-      const key = firebase.database().ref().child('groups').push().key;
+      
+      let key = firebase.database().ref().child('groups').push().key;
+      if(groupKey){
+        key = groupKey;
+      }
       let updates = {};
       updates['/groups/' + key] = data;
       updates['/member_group/' + user.uid + '/'+ key] = data;

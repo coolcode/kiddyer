@@ -7,6 +7,7 @@ import {
   
   const INITIAL_STATE = {
     groupName: '',
+    key: '',
     user: null,
     error: '',
     loading: false,
@@ -23,7 +24,7 @@ import {
         };
       case CREATE_MEMBERGROUP:
           return {
-            ...state, loading: true, error: ''
+            ...state, loading: true, error: '', key: action.key, groupName: action.groupName
           };
       case CREATE_MEMBERGROUP_SUCCESS:
         return {

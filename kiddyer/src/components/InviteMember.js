@@ -10,8 +10,8 @@ class InviteMember extends Component {
   }
 
   onButtonPress() { 
-    const { groupName } = this.props;
-    this.props.createMemberGroup({ groupName });
+    const { key, groupName } = this.props;
+    this.props.createMemberGroup({ key, groupName });
   }
  
   renderError() {
@@ -53,6 +53,11 @@ class InviteMember extends Component {
                 value={this.props.groupName}
               />
             </Item> 
+            <Form>
+              <Item style={{ height: 50 }}>
+                <Text>Join Key: {this.props.key}</Text>
+              </Item> 
+            </Form>
           </Form>
           {this.renderError()}
           {this.renderButton()}
@@ -73,7 +78,8 @@ const styles = {
 // mapStateToProps 完成了 reducer state 到 component props，为了链接对应的action，使用connect 链接reducer state 和 actions
 const mapStateToProps = state => {
   return {
-    groupName: state.famy.groupName
+    groupName: state.famy.groupName,
+    key: state.famy.key
   };
 };
 

@@ -65,9 +65,7 @@ export default class FamilyList extends Component {
     this.setState({ refreshing: false });
   }
 
-  render() {
-    //var firstImage = require('../images/01.jpg');
-
+  render() { 
     return (
       <Drawer
        ref={(ref) => { this.drawer = ref; }}
@@ -107,14 +105,20 @@ export default class FamilyList extends Component {
                   renderRow={(item) => (
                     <ListItem avatar>
                       <Left>
-                        <Thumbnail source={require('../assets/img/child.png') } />
+                        <Thumbnail source={require('../assets/img/child.png') }  onPress={()=> Actions.viewOnMap()}/>
                       </Left>
                       <Body>
                         <Text>{item.groupName}</Text>
                         <Text note>{item.groupCode}</Text>
                       </Body>
-                      <Right>
-                        <Text note>3:43 pm</Text>
+                      <Right>                         
+                        <Button
+                          block
+                          onPress={()=> Actions.invite({key: item.key})}
+                        >
+                            <Text> Manage </Text>
+                            <Icon name="arrow-forward" />
+                        </Button>
                       </Right>
                     </ListItem>
                   )}
