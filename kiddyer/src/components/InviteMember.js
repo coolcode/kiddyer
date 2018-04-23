@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Content, Form, Item, Input, Button, Text, View, Spinner } from 'native-base';
-import { groupNameChanged, createMemberGroup } from '../actions';
+import { groupNameChanged, createMemberGroup, loadData } from '../actions';
 
-class InviteMember extends Component {
-  constructor(props) {
-    super(props);
-     
-    const { key, groupName } = this.props;
-    console.log(`group key: ${key}`);
+class InviteMember extends Component { 
+
+  componentDidMount() {
+    //dispatch({ type: CREATE_MEMBERGROUP });
+    
+    console.log(this.props);
+    const { id, groupName } = this.props;
+    console.log(`load group key: ${id}`);  
+    this.props.loadData(id);
   }
 
   onGroupNameChange(text) {
@@ -16,9 +19,9 @@ class InviteMember extends Component {
   }
 
   onButtonPress() { 
-    const { key, groupName } = this.props;
-    console.log(`group key: ${key}`);
-    this.props.createMemberGroup({ key, groupName });
+    const { id, groupCode, groupName } = this.props;
+    console.log(`group key: ${id}`);
+    this.props.createMemberGroup({ id, groupCode, groupName });
   }
  
   renderError() {
@@ -62,7 +65,12 @@ class InviteMember extends Component {
             </Item> 
             <Form>
               <Item style={{ height: 50 }}>
-                <Text>Join Key x: {this.props.key}</Text>
+                <Text>Code: {this.props.groupCode}</Text>
+              </Item> 
+            </Form>
+            <Form>
+              <Item style={{ height: 50 }}>
+                <Text>Key: {this.props.key}</Text>
               </Item> 
             </Form>
           </Form>
@@ -86,8 +94,8 @@ const styles = {
 const mapStateToProps = state => {
   return {
     groupName: state.famy.groupName,
-    key: state.famy.key
+    //groupCode: state.famy.groupCode
   };
 };
 
-export default connect(mapStateToProps, { groupNameChanged, createMemberGroup })(InviteMember);
+export default connect(mapStateToProps, { groupNameChanged, createMemberGroup, loadData })(InviteMember);

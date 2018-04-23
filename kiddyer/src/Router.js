@@ -9,6 +9,7 @@ import Gmap from './components/Gmap';
 import UserProfile from './components/UserProfile';
 import Message from './components/Message';
 import LocationHistory from './components/LocationHistory';
+import JoinGroup from './components/JoinGroup';
 
 const RouterComponent = () => {
   return (
@@ -51,6 +52,15 @@ const RouterComponent = () => {
             key="invite"
             component={InviteMember}
             title="Invite"
+          />
+          <Scene
+            key="join"
+            component={JoinGroup}
+            title="Join Group"
+          />
+          <Scene
+            key="viewOnMap"
+            component={Gmap}
           />
           <Scene
             key="gmap"

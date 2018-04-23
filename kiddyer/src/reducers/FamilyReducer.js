@@ -7,6 +7,7 @@ import {
   
   const INITIAL_STATE = {
     groupName: '',
+    groupCode: '',
     key: '',
     user: null,
     error: '',
@@ -20,11 +21,11 @@ import {
     switch (action.type) { 
       case GROUPNAME_CHANGED:
         return {
-            ...state, groupName: action.groupName
+            ...state, groupName: action.groupName, groupCode: action.groupCode
         };
       case CREATE_MEMBERGROUP:
           return {
-            ...state, loading: true, error: '', key: action.key, groupName: action.groupName
+            ...state, loading: true, error: '', key: action.key, groupName: action.groupName, groupCode: action.groupCode
           };
       case CREATE_MEMBERGROUP_SUCCESS:
         return {

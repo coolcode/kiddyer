@@ -8,6 +8,25 @@ import {
 } from './types';
 //import cryptoRandomString from 'crypto-random-string';
 
+export const loadData = (id) => {
+  return (dispatch) => {    
+    //dispatch({ type: CREATE_MEMBERGROUP });  
+    const user = firebase.auth().currentUser;      
+    this.groupsRef = firebase.database().ref(`member_group/${user.uid}/${id}`)
+    .on('value', (snapshot) =>{
+        const val = snapshot.val();
+        console.log(val);
+        console.log(snapshot);
+        dispatch({ 
+          type: GROUPNAME_CHANGED,
+          groupName: val.groupName,
+          groupCode: val.groupCode,
+        });
+    });
+  };
+};
+
+
 export const groupNameChanged = (text) => {
     return (dispatch) => {
       dispatch({ 
@@ -18,20 +37,23 @@ export const groupNameChanged = (text) => {
   };
 
   
-export const createMemberGroup = ({ groupKey, groupName }) => {
+export const createMemberGroup = ({ id, groupCode, groupName }) => {
     return (dispatch) => {
       dispatch({ type: CREATE_MEMBERGROUP });  
 
       const user = firebase.auth().currentUser;
-      const randcode = Math.random().toString(36).slice(-6);
+      let randcode = Math.random().toString(36).slice(-6);
+      if(groupCode){
+        randcode = groupCode;
+      }
       let data = { 
         groupName: groupName,
         groupCode: randcode
       };
-      
+
       let key = firebase.database().ref().child('groups').push().key;
-      if(groupKey){
-        key = groupKey;
+      if(id){
+        key = id;
       }
       let updates = {};
       updates['/groups/' + key] = data;
