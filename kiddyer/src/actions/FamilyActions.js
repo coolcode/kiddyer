@@ -48,7 +48,8 @@ export const createMemberGroup = ({ id, groupCode, groupName }) => {
       }
       let data = { 
         groupName: groupName,
-        groupCode: randcode
+        groupCode: randcode,
+        user: {uid: user.uid, email: user.email}
       };
 
       let key = firebase.database().ref().child('groups').push().key;

@@ -9,6 +9,8 @@ class JoinGroup extends Component {
     super(props);
 
     this.state = {
+      error: '',
+      loading: false,
       groupCode: '',
     };
   }
@@ -31,19 +33,27 @@ class JoinGroup extends Component {
     //join 
     
     const user = firebase.auth().currentUser;
-    this.groupsRef = firebase.database().ref('member_group/'+ user.uid).limitToLast(100);    
+    this.groupsRef = firebase.database().ref('groups').limitToLast(1000);    
     groupsRef.once('value', groups => {
       var items = [];
       groups.forEach( (item)=> {
         var key = item.key;
         var val = item.val();
-        items.push({
-          key,
-          groupName: val.groupName,
-          groupCode: val.groupCode
-        });
-
+        if(val.groupCode == this.state.groupCode){
+          items.push({
+            key,
+            groupName: val.groupName,
+            groupCode: val.groupCode
+          });
+          return;
+        }
       });
+
+      if(len(items) == 0) {
+         console.log('Error! Group Code Is Not Found!');
+         this.state.error = 'Group Code Is Not Found!';
+         return;
+      }
 
       Actions.family();
     });
@@ -52,11 +62,11 @@ class JoinGroup extends Component {
   }
  
   renderError() {
-    if (this.props.error) {
+    if (this.state.error) {
       return (
         <View style={{ backgroundColor: 'white' }}>
           <Text style={styles.errorTextStyle}>
-            {this.props.error}
+            {this.state.error}
           </Text>
         </View>
       );
@@ -64,7 +74,7 @@ class JoinGroup extends Component {
   }
 
   renderButton() {
-    if (this.props.loading) {
+    if (this.state.loading) {
       return <Spinner color='blue' />;
     }
     return (
