@@ -4,13 +4,20 @@ import { Container, Content, Form, Item, Input, Button, Text, View, Spinner } fr
 import { groupNameChanged, createMemberGroup } from '../actions';
 
 class InviteMember extends Component {
- 
-  onGroupNameChange(text){
+  constructor(props) {
+    super(props);
+     
+    const { key, groupName } = this.props;
+    console.log(`group key: ${key}`);
+  }
+
+  onGroupNameChange(text) {
     this.props.groupNameChanged(text);
   }
 
   onButtonPress() { 
     const { key, groupName } = this.props;
+    console.log(`group key: ${key}`);
     this.props.createMemberGroup({ key, groupName });
   }
  
@@ -55,7 +62,7 @@ class InviteMember extends Component {
             </Item> 
             <Form>
               <Item style={{ height: 50 }}>
-                <Text>Join Key: {this.props.key}</Text>
+                <Text>Join Key x: {this.props.key}</Text>
               </Item> 
             </Form>
           </Form>
