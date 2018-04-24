@@ -60,7 +60,7 @@ export default class FamilyList extends Component {
       this.setState({items: items});
     });
   }
-  
+
 
   componentDidMount() {
     // start listening for firebase updates
@@ -93,8 +93,8 @@ export default class FamilyList extends Component {
               <Title>Member Group</Title>
             </Body>
             <Right>
-              <Button transparent onPress={() => Actions.join({id:'abc'})}>
-                <Icon name='group' />
+              <Button transparent onPress={() => Actions.join()}>
+                <Icon name='person' />
               </Button>
               {/* <Button transparent onPress={() => this.refreshData()}>
                 <Icon name='refresh' />
@@ -147,7 +147,7 @@ export default class FamilyList extends Component {
 
 
        </Container>
-      <FooterBadge />
+      {/* <FooterBadge /> */}
      </Drawer>
     );
   }
