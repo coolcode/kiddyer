@@ -90,6 +90,17 @@ export default class Gmap extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0922 * ratio, 
           },
+          markers: [{
+            key: "maker1",
+            /*opera house */
+            coordinate:{
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            }, 
+            title: "Kid",
+            description: "Where I am?",
+            image: "../assets/child.png"
+          }],
           error: null,
           });
       },
@@ -101,6 +112,39 @@ export default class Gmap extends Component {
     });
   }
  
+  renderMaker(marker, key){
+    console.log(`marker: ${marker.key}, ${marker.title}`);
+
+   return ( 
+   
+   <Marker
+    key={key}
+    coordinate={marker.coordinate}
+    title={marker.title}
+    description={marker.description}
+  >
+    <Callout>
+      <Card>
+        <CardItem> 
+          <Left>
+            <Thumbnail source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}} />
+            <Body>
+              <Text>{marker.title}</Text> 
+            </Body>
+          </Left>
+        </CardItem>
+        {/* <CardItem cardBody>
+          <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}} 
+            style={{height: 40, width: 40, flex: 1}}/>
+        </CardItem> */}
+        <CardItem footer>
+          <Text>{marker.description}</Text>
+        </CardItem>
+      </Card>
+    </Callout>
+  </Marker>);
+  }
+
   render() {
     
     const { width, height } = Dimensions.get('window');
@@ -124,34 +168,9 @@ export default class Gmap extends Component {
                 followsUserLocation = {true}
                 loadingEnabled = {true}
               >
-              {this.state.markers.map((marker, key) => (
-                <Marker
-                  key = {key}
-                  coordinate={marker.coordinate}
-                  title={marker.title}
-                  description={marker.description}
-                >
-                  <Callout>
-                    <Card>
-                      <CardItem> 
-                        <Left>
-                          <Thumbnail source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}} />
-                          <Body>
-                            <Text>{marker.title}</Text> 
-                          </Body>
-                        </Left>
-                      </CardItem>
-                      {/* <CardItem cardBody>
-                        <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}} 
-                          style={{height: 40, width: 40, flex: 1}}/>
-                      </CardItem> */}
-                      <CardItem footer>
-                        <Text>{marker.description}</Text>
-                      </CardItem>
-                    </Card>
-                  </Callout>
-                </Marker>
-              ))}
+              {this.state.markers.map((marker, key) => 
+                 this.renderMaker(marker, key)
+              )}
               </MapView>
             )}
           </View>
