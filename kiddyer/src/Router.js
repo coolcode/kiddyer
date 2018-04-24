@@ -41,7 +41,7 @@ const RouterComponent = () => {
             hideNavBar
             key="family"
             component={FamilyList}
-            // title="Family Group"
+            title="Family Group"
             // rightTitle="Invite"
             // leftTitle="Logout"
             // onRight={() => Actions.invite()}
@@ -51,7 +51,7 @@ const RouterComponent = () => {
           <Scene
             key="invite"
             component={InviteMember}
-            title="Invite"
+            title="Manage Group"
           />
           <Scene
             key="join"
@@ -61,6 +61,7 @@ const RouterComponent = () => {
           <Scene
             key="viewOnMap"
             component={Gmap}
+            title="Monitoring"
           />
           <Scene
             key="gmap"

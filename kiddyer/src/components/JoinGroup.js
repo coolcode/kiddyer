@@ -33,7 +33,8 @@ class JoinGroup extends Component {
     //join 
     
     const user = firebase.auth().currentUser;
-    this.groupsRef = firebase.database().ref('groups').limitToLast(1000);    
+    var groupsRef = firebase.database().ref('groups').limitToLast(1000);    
+    // find group by its code5
     groupsRef.once('value', groups => {
       var items = [];
       groups.forEach( (item)=> {
@@ -42,18 +43,37 @@ class JoinGroup extends Component {
         if(val.groupCode == this.state.groupCode){
           items.push({
             key,
-            groupName: val.groupName,
-            groupCode: val.groupCode
+            val
           });
           return;
         }
       });
 
-      if(len(items) == 0) {
+      if(items.length == 0) {
          console.log('Error! Group Code Is Not Found!');
-         this.state.error = 'Group Code Is Not Found!';
+         this.setState( {error : 'Group code is not found!'});
          return;
       }
+
+      var groupItem = items[0];
+      
+      let key = groupItem.key;
+      let data = groupItem.val;
+
+      if(!data.members){
+        data.members = [];
+      } 
+
+      data.members.push({
+        uid: user.uid, 
+        email: user.email
+      });
+
+      let updates = {};
+      updates['/groups/' + groupItem.key] = data;
+      updates['/member_group/' + data.user.uid + '/'+ key] = data;
+      updates['/member_join/' + user.uid + '/'+ key] = data;
+      firebase.database().ref().update(updates);
 
       Actions.family();
     });

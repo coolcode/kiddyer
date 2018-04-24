@@ -20,9 +20,10 @@ class InviteMember extends Component {
 
   onButtonPress() { 
     const { id, groupCode, groupName } = this.props;
-    console.log(`group key: ${id}`);
+    console.log(`group id: ${id}`);
     this.props.createMemberGroup({ id, groupCode, groupName });
   }
+
  
   renderError() {
     if (this.props.error) {

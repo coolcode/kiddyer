@@ -90,9 +90,9 @@ export default class Gmap extends Component {
 
     return ( 
       <Container>
-        <Header>
+        {/* <Header>
           <Title>Map</Title>          
-        </Header>
+        </Header> */}
 
          <Content scrollEnabled={false}>
           <View style={{ width, height }}>

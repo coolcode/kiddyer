@@ -60,6 +60,7 @@ export default class FamilyList extends Component {
       this.setState({items: items});
     });
   }
+  
 
   componentDidMount() {
     // start listening for firebase updates

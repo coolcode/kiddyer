@@ -53,13 +53,26 @@ export const createMemberGroup = ({ id, groupCode, groupName }) => {
       };
 
       let key = firebase.database().ref().child('groups').push().key;
+      
+      let updates = {};
+      
+      console.log(`id:${id}`);
       if(id){
         key = id;
+        var groupsRef = firebase.database().ref('groups/'+id);    
+        groupsRef.once('value', group => {
+           data =  group.val();
+           data.groupName = groupName;           
+          updates['/groups/' + key] = data;
+          updates['/member_group/' + user.uid + '/'+ key] = data;
+          firebase.database().ref().update(updates);
+        });
+
+      }else{
+        updates['/groups/' + key] = data;
+        updates['/member_group/' + user.uid + '/'+ key] = data;
+        firebase.database().ref().update(updates);
       }
-      let updates = {};
-      updates['/groups/' + key] = data;
-      updates['/member_group/' + user.uid + '/'+ key] = data;
-      firebase.database().ref().update(updates);
 
       //dispatch({ type: CREATE_MEMBERGROUP_SUCCESS, message: 'Saved!' });  
 
