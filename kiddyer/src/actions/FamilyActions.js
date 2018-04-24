@@ -8,6 +8,25 @@ import {
 } from './types';
 //import cryptoRandomString from 'crypto-random-string';
 
+export const loadData = (id) => {
+  return (dispatch) => {    
+    //dispatch({ type: CREATE_MEMBERGROUP });  
+    const user = firebase.auth().currentUser;      
+    this.groupsRef = firebase.database().ref(`member_group/${user.uid}/${id}`)
+    .on('value', (snapshot) =>{
+        const val = snapshot.val();
+        console.log(val);
+        console.log(snapshot);
+        dispatch({ 
+          type: GROUPNAME_CHANGED,
+          groupName: val.groupName,
+          groupCode: val.groupCode,
+        });
+    });
+  };
+};
+
+
 export const groupNameChanged = (text) => {
     return (dispatch) => {
       dispatch({ 
@@ -18,20 +37,42 @@ export const groupNameChanged = (text) => {
   };
 
   
-export const createMemberGroup = ({ groupName }) => {
+export const createMemberGroup = ({ id, groupCode, groupName }) => {
     return (dispatch) => {
       dispatch({ type: CREATE_MEMBERGROUP });  
 
       const user = firebase.auth().currentUser;
+      let randcode = Math.random().toString(36).slice(-6);
+      if(groupCode){
+        randcode = groupCode;
+      }
       let data = { 
         groupName: groupName,
-        groupCode: ''
+        groupCode: randcode,
+        user: {uid: user.uid, email: user.email}
       };
-      const key = firebase.database().ref().child('groups').push().key;
+
+      let key = firebase.database().ref().child('groups').push().key;
+      
       let updates = {};
-      updates['/groups/' + key] = data;
-      updates['/member_group/' + user.uid + '/'+ key] = data;
-      firebase.database().ref().update(updates);
+      
+      console.log(`id:${id}`);
+      if(id){
+        key = id;
+        var groupsRef = firebase.database().ref('groups/'+id);    
+        groupsRef.once('value', group => {
+           data =  group.val();
+           data.groupName = groupName;           
+          updates['/groups/' + key] = data;
+          updates['/member_group/' + user.uid + '/'+ key] = data;
+          firebase.database().ref().update(updates);
+        });
+
+      }else{
+        updates['/groups/' + key] = data;
+        updates['/member_group/' + user.uid + '/'+ key] = data;
+        firebase.database().ref().update(updates);
+      }
 
       //dispatch({ type: CREATE_MEMBERGROUP_SUCCESS, message: 'Saved!' });  
 

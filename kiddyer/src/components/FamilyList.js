@@ -22,8 +22,6 @@ export default class FamilyList extends Component {
     };
   }
 
-
-
   closeDrawer() {
     this.drawer._root.close();
   }
@@ -32,8 +30,18 @@ export default class FamilyList extends Component {
     this.drawer._root.open();
   }
 
-  refreshData(){
+  refreshData() {
     Actions.family();
+  }
+
+  editItem(groupKey) {
+    console.log(`edit key: ${groupKey}`);
+    this.setState({ key: groupKey });
+    Actions.invite({ id: groupKey });
+  }
+
+  viewOnMap(groupKey){
+    Actions.viewOnMap({ id: groupKey });
   }
 
   listenForDatabases(groupsRef){
@@ -53,6 +61,7 @@ export default class FamilyList extends Component {
     });
   }
 
+
   componentDidMount() {
     // start listening for firebase updates
     this.listenForDatabases(this.groupsRef);
@@ -66,8 +75,6 @@ export default class FamilyList extends Component {
   }
 
   render() {
-    //var firstImage = require('../images/01.jpg');
-
     return (
       <Drawer
        ref={(ref) => { this.drawer = ref; }}
@@ -86,9 +93,12 @@ export default class FamilyList extends Component {
               <Title>Member Group</Title>
             </Body>
             <Right>
-              <Button transparent onPress={() => this.refreshData()}>
-                <Icon name='refresh' />
+              <Button transparent onPress={() => Actions.join()}>
+                <Icon name='person' />
               </Button>
+              {/* <Button transparent onPress={() => this.refreshData()}>
+                <Icon name='refresh' />
+              </Button> */}
               <Button transparent onPress={() => Actions.invite()}>
                 <Icon name='add' />
               </Button>
@@ -106,16 +116,29 @@ export default class FamilyList extends Component {
                   dataArray={this.state.items}
                   renderRow={(item) => (
                     <ListItem avatar>
+                      {/* <Left>
+                        <Thumbnail source={require('../assets/img/child.png') }  onPress={()=> Actions.viewOnMap({ key: item.key})}/>
+                      </Left> */}
                       <Left>
-                        {/* <Thumbnail square size={80} source={{ uri: 'http://res.cloudinary.com/yopo/image/upload/v1509365714/kiddyer/baby-laughing-icon.png' }} /> */}
-                        <Thumbnail source={require('../assets/img/child.png') } />
-                      </Left>
+                        <Button
+                          block
+                          onPress={()=> this.viewOnMap(item.key)}
+                        >
+                            <Thumbnail source={require('../assets/img/child.png') } />
+                        </Button>
+                        </Left>
                       <Body>
                         <Text>{item.groupName}</Text>
                         <Text note>{item.groupCode}</Text>
                       </Body>
                       <Right>
-                        <Text note>3:43 pm</Text>
+                        <Button
+                          block
+                          onPress={()=> this.editItem(item.key)}
+                        >
+                            {/* <Text> Manage </Text> */}
+                            <Icon name="arrow-forward" />
+                        </Button>
                       </Right>
                     </ListItem>
                   )}
@@ -124,7 +147,7 @@ export default class FamilyList extends Component {
 
 
        </Container>
-      <FooterBadge />
+      {/* <FooterBadge /> */}
      </Drawer>
     );
   }

@@ -1,6 +1,6 @@
 /* @flow */
 import React from 'react';
-import { Actions, Router, Stack, Scene } from 'react-native-router-flux';
+import { Actions, Router, Scene } from 'react-native-router-flux';
 import Login from './components/Login';
 import Register from './components/Register';
 import FamilyList from './components/FamilyList';
@@ -9,6 +9,7 @@ import Gmap from './components/Gmap';
 import UserProfile from './components/UserProfile';
 import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
+import JoinGroup from './components/JoinGroup';
 
 const RouterComponent = () => {
   return (
@@ -35,7 +36,7 @@ const RouterComponent = () => {
             hideNavBar
             key="family"
             component={FamilyList}
-            // title="Family Group"
+            title="Family Group"
             // rightTitle="Invite"
             // leftTitle="Logout"
             // onRight={() => Actions.invite()}
@@ -45,7 +46,17 @@ const RouterComponent = () => {
           <Scene
             key="invite"
             component={InviteMember}
-            title="Invite"
+            title="Manage Group"
+          />
+          <Scene
+            key="join"
+            component={JoinGroup}
+            title="Join Group"
+          />
+          <Scene
+            key="viewOnMap"
+            component={Gmap}
+            title="Monitoring"
           />
           <Scene
             key="gmap"

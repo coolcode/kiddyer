@@ -66,6 +66,7 @@ export default class Gmap extends Component {
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          console.log(`current location!`);
           this.setState({
             region:{
               latitude: position.coords.latitude,
@@ -79,7 +80,69 @@ export default class Gmap extends Component {
         (error) => this.setState({ error: error.message }),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
       );
+
+      navigator.geolocation.watchPosition((position) => {
+        console.log(`watch position!`);
+        this.setState({
+          region:{
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0922 * ratio,
+          },
+          markers: [{
+            key: "maker1",
+            /*opera house */
+            coordinate:{
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            },
+            title: "Kid",
+            description: "Where I am?",
+            image: "../assets/child.png"
+          }],
+          error: null,
+          });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+
+
     });
+  }
+
+  renderMaker(marker, key){
+    console.log(`marker: ${marker.key}, ${marker.title}`);
+
+   return (
+
+   <Marker
+    key={key}
+    coordinate={marker.coordinate}
+    title={marker.title}
+    description={marker.description}
+  >
+    <Callout>
+      <Card>
+        <CardItem>
+          <Left>
+            <Thumbnail source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}} />
+            <Body>
+              <Text>{marker.title}</Text>
+            </Body>
+          </Left>
+        </CardItem>
+        {/* <CardItem cardBody>
+          <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}}
+            style={{height: 40, width: 40, flex: 1}}/>
+        </CardItem> */}
+        <CardItem footer>
+          <Text>{marker.description}</Text>
+        </CardItem>
+      </Card>
+    </Callout>
+  </Marker>);
   }
 
   render() {
@@ -89,9 +152,9 @@ export default class Gmap extends Component {
 
     return (
       <Container>
-        <Header>
+        {/* <Header>
           <Title>Map</Title>
-        </Header>
+        </Header> */}
 
          <Content scrollEnabled={false}>
           <View style={{ width, height }}>
@@ -105,33 +168,9 @@ export default class Gmap extends Component {
                 followsUserLocation
                 loadingEnabled
               >
-              {this.state.markers.map((marker, key) => (
-                <Marker
-                  coordinate={marker.coordinate}
-                  title={marker.title}
-                  description={marker.description}
-                >
-                  <Callout>
-                    <Card>
-                      <CardItem>
-                        <Left>
-                          <Thumbnail source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}} />
-                          <Body>
-                            <Text>{marker.title}</Text>
-                          </Body>
-                        </Left>
-                      </CardItem>
-                      {/* <CardItem cardBody>
-                        <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}}
-                          style={{height: 40, width: 40, flex: 1}}/>
-                      </CardItem> */}
-                      <CardItem footer>
-                        <Text>{marker.description}</Text>
-                      </CardItem>
-                    </Card>
-                  </Callout>
-                </Marker>
-              ))}
+              {this.state.markers.map((marker, key) =>
+                 this.renderMaker(marker, key)
+              )}
               </MapView>
             )}
           </View>
