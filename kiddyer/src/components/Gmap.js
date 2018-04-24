@@ -66,6 +66,7 @@ export default class Gmap extends Component {
       
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          console.log(`current location!`);
           this.setState({
             region:{
               latitude: position.coords.latitude,
@@ -80,6 +81,23 @@ export default class Gmap extends Component {
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
       );
       
+      navigator.geolocation.watchPosition((position) => {
+        console.log(`watch position!`);
+        this.setState({
+          region:{
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0922 * ratio, 
+          },
+          error: null,
+          });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+    
+
     });
   }
  
@@ -108,6 +126,7 @@ export default class Gmap extends Component {
               >
               {this.state.markers.map((marker, key) => (
                 <Marker
+                  key = {key}
                   coordinate={marker.coordinate}
                   title={marker.title}
                   description={marker.description}
