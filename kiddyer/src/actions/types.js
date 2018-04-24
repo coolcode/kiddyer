@@ -17,3 +17,12 @@ export const GROUPNAME_CHANGED = 'groupname_changed';
 export const CREATE_MEMBERGROUP = 'create_membergroup';
 export const CREATE_MEMBERGROUP_SUCCESS = 'create_membergroup_success';
 export const CREATE_MEMBERGROUP_FAIL = 'create_membergroup_fail';
+
+/* group chat */
+export const TEXT_CHANGED = 'text_changed';
+export const SEND_MESSAGE = 'send_message';
+export const RECEIVE_MESSAGE = 'receive_message';
+export const SEND_MESSAGE_SUCCESS = 'send_message_success';
+export const SEND_MESSAGE_FAIL = 'send_message_fail';
+export const RECEIVE_MESSAGE_SUCCESS = 'receive_message_success';
+export const RECEIVE_MESSAGE_FAIL = 'receive_message_fail';

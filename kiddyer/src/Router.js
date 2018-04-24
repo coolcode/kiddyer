@@ -7,7 +7,7 @@ import FamilyList from './components/FamilyList';
 import InviteMember from './components/InviteMember';
 import Gmap from './components/Gmap';
 import UserProfile from './components/UserProfile';
-import Message from './components/Message';
+import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
 
 const RouterComponent = () => {
@@ -32,11 +32,6 @@ const RouterComponent = () => {
 
         <Scene key="main">
           <Scene
-            key="userprofile"
-            component={UserProfile}
-            title="Profile"
-          />
-          <Scene
             hideNavBar
             key="family"
             component={FamilyList}
@@ -59,14 +54,21 @@ const RouterComponent = () => {
           <Scene
             key="profile"
             component={UserProfile}
+            title="Update Password"
+            leftTitle="Done"
+            onLeft={() => Actions.family()}
           />
           <Scene
-            key="message"
-            component={Message}
+            key="chat"
+            component={Chat}
+            leftTitle="Done"
+            onLeft={() => Actions.family()}
           />
           <Scene
             key="locationHistory"
             component={LocationHistory}
+            leftTitle="Done"
+            onLeft={() => Actions.family()}
           />
         </Scene>
       </Scene>

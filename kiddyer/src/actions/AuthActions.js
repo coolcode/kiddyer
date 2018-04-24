@@ -69,7 +69,7 @@ const loginUserSuccess = (dispatch, user) => {
     payload: user
   });
 
-  Actions.main();
+  Actions.family();
 };
 
 const createUserFail = (dispatch, error) => {
