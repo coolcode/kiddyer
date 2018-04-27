@@ -29,11 +29,11 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case EMAIL_CHANGED:
       return {
-        ...state, email: action.payload
+        ...state, email: action.payload, error: ''
       };
     case PASSWORD_CHANGED:
       return {
-        ...state, password: action.payload
+        ...state, password: action.payload, error: ''
       };
     case CURRENT_PASSWORD:
       return {
