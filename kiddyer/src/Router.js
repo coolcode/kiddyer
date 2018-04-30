@@ -11,7 +11,7 @@ import UserProfile from './components/UserProfile';
 import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
 import JoinGroup from './components/JoinGroup';
-
+import Test from './components/Test';
 import LoginScreen from './components/common/LoginScreen';
 
 const RouterComponent = () => {
