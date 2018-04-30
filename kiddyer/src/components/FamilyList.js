@@ -55,12 +55,10 @@ export default class FamilyList extends Component {
           groupName: val.groupName,
           groupCode: val.groupCode
         });
-
       });
       this.setState({items: items});
     });
   }
-
 
   componentDidMount() {
     // start listening for firebase updates

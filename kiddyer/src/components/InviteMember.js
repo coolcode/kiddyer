@@ -64,7 +64,7 @@ class InviteMember extends Component {
                 value={this.props.groupName}
               />
             </Item>
-            <Form>
+            {/* <Form>
               <Item style={{ height: 50 }}>
                 <Text>Code: {this.props.groupCode}</Text>
               </Item>
@@ -73,7 +73,7 @@ class InviteMember extends Component {
               <Item style={{ height: 50 }}>
                 <Text>Key: {this.props.key}</Text>
               </Item>
-            </Form>
+            </Form> */}
           </Form>
           {this.renderError()}
           {this.renderButton()}

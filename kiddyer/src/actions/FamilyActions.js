@@ -15,6 +15,9 @@ export const loadData = (id) => {
     this.groupsRef = firebase.database().ref(`member_group/${user.uid}/${id}`)
     .on('value', (snapshot) =>{
         const val = snapshot.val();
+        if(!val){
+          return;
+        }
         console.log(val);
         console.log(snapshot);
         dispatch({ 
