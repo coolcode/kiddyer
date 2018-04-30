@@ -4,6 +4,7 @@ import {
   View,
   Dimensions,
   InteractionManager,
+  TouchableOpacity
 } from 'react-native';
 import {
   Container,
@@ -23,6 +24,7 @@ import {
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 
 
 export default class Gmap extends Component {
@@ -35,19 +37,19 @@ export default class Gmap extends Component {
         latitude: -33.8885795,
         longitude: 151.1851586,
       },
-      markers: [{
-        key: "maker1",
+      markers: [],
+    };
+
         /*opera house */
+    /**{
+        key: "maker1",
         coordinate:{
           latitude: -33.8655721,
           longitude:  151.2048194,
         },
         title: "Kid",
-        description: "Where I am?" ,
-        image: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"
-      }],
-    };
-
+        description: "Where I am?"
+      } */
     this.members = [];
     this.membersRef = [];
   }
@@ -153,7 +155,7 @@ export default class Gmap extends Component {
             let x = ss.val();
             console.log(`location change: ${item.uid}, ${x.lat}, ${x.lng}, ${item.email}`);
             console.log(x);
-            var markerKey = `maker_${item.uid}`;
+            var markerKey = `${item.uid}`;
             if(!x){
               return;
             }
@@ -209,14 +211,20 @@ export default class Gmap extends Component {
     coordinate={marker.coordinate}
     title={marker.title}
     description={marker.description}
+    image = {require("../assets/img/child.png")}
   >
     <Callout>
       <Card>
         <CardItem>
           <Left>
-            <Body>
             <Thumbnail source={require("../assets/img/child.png")} />
-              <Text>{marker.title}</Text>
+            <Body>
+           
+              <TouchableOpacity 
+            onPress={() => Actions.chat({uid: marker.key})}
+          >
+               <Text>{marker.title}</Text>
+          </TouchableOpacity>
             </Body>
           </Left>
         </CardItem>
@@ -225,7 +233,7 @@ export default class Gmap extends Component {
             style={{height: 40, width: 40, flex: 1}}/>
         </CardItem>  */}
         <CardItem footer>
-          <Text>{marker.description}</Text>
+          {/* <Text>{marker.description}</Text> */}
         </CardItem>
       </Card>
     </Callout>
