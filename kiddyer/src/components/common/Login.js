@@ -7,8 +7,7 @@ import {
   Image,
   Text,
   View,
-  TextInput,
-  Platform,
+  TextInput
 } from 'react-native';
 
 import { Button, Spinner, Toast } from 'native-base';
@@ -85,7 +84,7 @@ class Login extends Component {
   render() {
     return (
 
-        <KeyboardAvoidingView  style={styles.container}> 
+        <KeyboardAvoidingView behavior="position" style={styles.container}>
 
           <View style={styles.inputWrapper}>
             <Image source={usernameImg} style={styles.inlineImg} />

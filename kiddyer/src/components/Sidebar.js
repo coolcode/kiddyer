@@ -16,7 +16,6 @@ export default class Sidebar extends Component {
       <ScrollView style={styles.container}>
         <Text style={styles.text}>Menu</Text>
         <Button style={styles.button} block primary onPress={() => Actions.profile()}><Text> User Profile </Text></Button>
-        <Button style={styles.button} block light onPress={() => Actions.family()}><Text> Manage Member Group</Text></Button>
         <Button style={styles.button} block light onPress={() => Actions.chat()}><Text> Message</Text></Button>
         <Button style={styles.button} block light onPress={() => Actions.locationHistory({ id: 123 })}><Text> Location History</Text></Button>
         <Button
