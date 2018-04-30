@@ -11,7 +11,7 @@ import UserProfile from './components/UserProfile';
 import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
 import JoinGroup from './components/JoinGroup';
-import gmaptest from './components/gmaptest';
+import Test from './components/Test';
 import LoginScreen from './components/common/LoginScreen';
 
 const RouterComponent = () => {
@@ -22,7 +22,7 @@ const RouterComponent = () => {
           <Scene key="auth">
             <Scene
               key="login"
-              component={gmaptest}
+              component={LoginScreen}
               hideNavBar
               initial
             />

@@ -28,11 +28,11 @@ export default class Chat extends React.Component {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages)
     }));
-    // const Key = firebase.database().ref().child('messages').push().key;
-    // const updates = {};
-    // updates['/messages'] = this.state.messages;
-    //
-    // firebase.database().ref().update(updates);
+    const Key = firebase.database().ref().child('messages').push().key;
+    const updates = {};
+    updates['/messages'] = this.state.messages;
+
+    firebase.database().ref().update(updates);
   }
 
   render() {
