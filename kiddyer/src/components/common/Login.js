@@ -7,7 +7,8 @@ import {
   Image,
   Text,
   View,
-  TextInput
+  TextInput,
+  Platform,
 } from 'react-native';
 
 import { Button, Spinner, Toast } from 'native-base';
@@ -84,7 +85,7 @@ class Login extends Component {
   render() {
     return (
 
-        <KeyboardAvoidingView behavior="position" style={styles.container}>
+        <KeyboardAvoidingView behavior='position' style={styles.container}>
 
           <View style={styles.inputWrapper}>
             <Image source={usernameImg} style={styles.inlineImg} />
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
   },
   btnEye: {
     position: 'absolute',
-    top: 50,
+    top: 60,
     right: 28,
   },
   iconEye: {
