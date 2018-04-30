@@ -135,7 +135,7 @@ export default class FamilyList extends Component {
                         <Thumbnail source={require('../assets/img/child.png') }  onPress={()=> Actions.viewOnMap({ key: item.key})}/>
                       </Left> */}
                       <Left>
-                        <Button
+                        <Button transparent
                           block
                           onPress={()=> this.viewOnMap(item.key)}
                         >

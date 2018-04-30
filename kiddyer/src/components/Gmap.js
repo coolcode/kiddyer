@@ -217,7 +217,7 @@ export default class Gmap extends Component {
       <Card>
         <CardItem>
           <Left>
-            <Thumbnail source={require("../assets/img/child.png")} />
+            {/* <Thumbnail source={require("../assets/img/child.png")} /> */}
             <Body>
            
               <TouchableOpacity 
@@ -234,6 +234,9 @@ export default class Gmap extends Component {
         </CardItem>  */}
         <CardItem footer>
           {/* <Text>{marker.description}</Text> */}
+          <Button transparent onPress={() => Actions.chat({uid: marker.key})}>
+                <Text>Chat</Text>
+              </Button>
         </CardItem>
       </Card>
     </Callout>
@@ -273,9 +276,10 @@ export default class Gmap extends Component {
 
         {/* <Footer>
           <FooterTab>
-            <Button transparent>
-             <Text> Maps</Text>
-            </Button>
+            
+          <Button transparent onPress={() => Actions.chat()}>
+                <Text>Chat</Text>
+              </Button>
           </FooterTab>
         </Footer> */}
       </Container>
