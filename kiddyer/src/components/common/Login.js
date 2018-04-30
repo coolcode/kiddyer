@@ -85,7 +85,11 @@ class Login extends Component {
   render() {
     return (
 
+<<<<<<< HEAD
         <KeyboardAvoidingView behavior='position' style={styles.container}>
+=======
+        <KeyboardAvoidingView  style={styles.container}> 
+>>>>>>> 75ad8487ca144346c0c2cbf07c6c09345521352e
 
           <View style={styles.inputWrapper}>
             <Image source={usernameImg} style={styles.inlineImg} />
