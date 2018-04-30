@@ -22,6 +22,7 @@ import {
 } from 'native-base';
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
+import firebase from 'firebase';
 
 
 export default class Gmap extends Component {
@@ -46,6 +47,9 @@ export default class Gmap extends Component {
         image: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"
       }],
     };
+
+    this.members = [];
+    this.membersRef = [];
   }
 
   componentDidMount() {
@@ -90,26 +94,109 @@ export default class Gmap extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0922 * ratio,
           },
-          markers: [{
-            key: "maker1",
-            /*opera house */
-            coordinate:{
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            },
-            title: "Kid",
-            description: "Where I am?",
-            image: "../assets/child.png"
-          }],
+          // markers: [{
+          //   key: "maker1",
+          //   /*opera house */
+          //   coordinate:{
+          //     latitude: position.coords.latitude,
+          //     longitude: position.coords.longitude,
+          //   },
+          //   title: "Kid",
+          //   description: "Where I am?",
+          //   image: "../assets/child.png"
+          // }],
           error: null,
           });
+
+          //upload my location
+          this.uploadLocation(position.coords);
+
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
 
+    //load members
+    
+    const { id } = this.props;
+    console.log(`map: group id: ${id}`);
+    this.loadMembers(id);
 
     });
+  }
+
+  loadMembers(id) { 
+      const user = firebase.auth().currentUser;      
+      this.groupsRef = firebase.database().ref(`member_join/${user.uid}/${id}/members`)
+      .once('value', (snapshot) =>{
+        var items = [{uid: user.uid, email: user.email}];
+        this.membersRef = [];
+        snapshot.forEach( (item)=> {
+          var key = item.key;
+          var val = item.val();
+          if(val){
+            items.push({
+              key,
+              uid: val.uid,
+              email: val.email
+            });
+          }
+          
+        console.log(`member:${val.email}, ${val.uid}`);
+        });//snapshot
+
+        this.members = items ;
+
+        items.forEach(item=>{          
+          let locationRef = firebase.database().ref(`location/${item.uid}`);
+          locationRef.on('value', ss=>{
+            let x = ss.val();
+            console.log(`location change: ${item.uid}, ${x.lat}, ${x.lng}, ${item.email}`);
+            console.log(x);
+            var markerKey = `maker_${item.uid}`;
+            if(!x){
+              return;
+            }
+            let mk = {
+              key: markerKey,
+              /*opera house */
+              coordinate:{
+                latitude: x.lat,
+                longitude: x.lng,
+              },
+              title: item.email,
+              description: `(${x.lat}, ${x.lng})`
+            };         
+            
+            //merge markers
+            var found = -1;
+            for(var i=0;i<this.state.markers.length;i++){
+              if(this.state.markers[i].key == markerKey){
+                found = i;
+                break;
+              }
+            }
+
+            if(found>=0){
+              this.state.markers[found] = mk;
+            }else{
+              this.state.markers.push(mk);
+            }
+          });//end locationRef
+
+          this.membersRef.push(locationRef);
+        });//end items
+
+      }); 
+  }
+
+  uploadLocation(coords){
+    console.log(`upload: ${coords.latitude}, ${coords.longitude}`);
+    const user = firebase.auth().currentUser;
+    let data = {lat:coords.latitude, lng:coords.longitude, date: new Date()};
+    let updates = {};
+    updates['/location/' + user.uid ] = data;
+    firebase.database().ref().update(updates);
   }
 
   renderMaker(marker, key){
@@ -127,16 +214,16 @@ export default class Gmap extends Component {
       <Card>
         <CardItem>
           <Left>
-            <Thumbnail source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}} />
             <Body>
+            <Thumbnail source={require("../assets/img/child.png")} />
               <Text>{marker.title}</Text>
             </Body>
           </Left>
         </CardItem>
-        {/* <CardItem cardBody>
+       {/* <CardItem cardBody>
           <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}}
             style={{height: 40, width: 40, flex: 1}}/>
-        </CardItem> */}
+        </CardItem>  */}
         <CardItem footer>
           <Text>{marker.description}</Text>
         </CardItem>
@@ -176,13 +263,13 @@ export default class Gmap extends Component {
           </View>
         </Content>
 
-        <Footer>
+        {/* <Footer>
           <FooterTab>
             <Button transparent>
              <Text> Maps</Text>
             </Button>
           </FooterTab>
-        </Footer>
+        </Footer> */}
       </Container>
     );
   }

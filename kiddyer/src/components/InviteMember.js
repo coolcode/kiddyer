@@ -60,6 +60,7 @@ class InviteMember extends Component {
               <Input
                 placeholder="Group Name"
                 autoCapitalize="none"
+                autoCorrect={false}
                 onChangeText={this.onGroupNameChange.bind(this)}
                 value={this.props.groupName}
               />
