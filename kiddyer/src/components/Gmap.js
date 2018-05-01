@@ -226,15 +226,12 @@ export default class Gmap extends Component {
                <Text>{marker.title}</Text> 
         </CardItem>
        {/* <CardItem cardBody>
-          <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}}
-            style={{height: 40, width: 40, flex: 1}}/>
-        </CardItem>  */}
-        <CardItem footer>
-          <Text>{marker.description}</Text>
-          {/* <Button transparent onPress={() => Actions.chat({uid: marker.key})}>
-                <Text>Chat</Text>
-              </Button> */}
-        </CardItem>
+          <Image source={require("../assets/img/child.png")}
+            style={{height: 128, width: 128, flex: 1}}/>
+        </CardItem> */}
+        {/* <CardItem footer>
+          <Text>{marker.description}</Text> 
+        </CardItem> */}
       </Card>
     </Callout>
   </Marker>);
