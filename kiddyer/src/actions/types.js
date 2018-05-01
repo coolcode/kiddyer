@@ -17,6 +17,8 @@ export const GROUPNAME_CHANGED = 'groupname_changed';
 export const CREATE_MEMBERGROUP = 'create_membergroup';
 export const CREATE_MEMBERGROUP_SUCCESS = 'create_membergroup_success';
 export const CREATE_MEMBERGROUP_FAIL = 'create_membergroup_fail';
+export const GROUP_MANAGE = 'group_manage';
+export const DELETE_MEMBER = 'delete_member';
 
 /* group chat */
 export const TEXT_CHANGED = 'text_changed';

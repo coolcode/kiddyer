@@ -119,7 +119,7 @@ export default class Gmap extends Component {
     );
 
     //load members
-    
+
     const { id } = this.props;
     console.log(`map: group id: ${id}`);
     this.loadMembers(id);
@@ -127,8 +127,8 @@ export default class Gmap extends Component {
     });
   }
 
-  loadMembers(id) { 
-      const user = firebase.auth().currentUser;      
+  loadMembers(id) {
+      const user = firebase.auth().currentUser;
       this.groupsRef = firebase.database().ref(`member_join/${user.uid}/${id}/members`)
       .once('value', (snapshot) =>{
         var items = [{uid: user.uid, email: user.email}];
@@ -143,13 +143,13 @@ export default class Gmap extends Component {
               email: val.email
             });
           }
-          
+
         console.log(`member:${val.email}, ${val.uid}`);
         });//snapshot
 
         this.members = items ;
 
-        items.forEach(item=>{          
+        items.forEach(item=>{
           let locationRef = firebase.database().ref(`location/${item.uid}`);
           locationRef.on('value', ss=>{
             let x = ss.val();
@@ -168,8 +168,8 @@ export default class Gmap extends Component {
               },
               title: item.email,
               description: `(${x.lat}, ${x.lng})`
-            };         
-            
+            };
+
             //merge markers
             var found = -1;
             for(var i=0;i<this.state.markers.length;i++){
@@ -189,7 +189,7 @@ export default class Gmap extends Component {
           this.membersRef.push(locationRef);
         });//end items
 
-      }); 
+      });
   }
 
   uploadLocation(coords){
@@ -219,10 +219,10 @@ export default class Gmap extends Component {
           <Left>
             <Thumbnail source={require("../assets/img/child.png")} />
             <Body>
-           
-              <TouchableOpacity 
-            onPress={() => Actions.chat({uid: marker.key})}
-          >
+
+              <TouchableOpacity
+                onPress={() => Actions.chat({ uid: marker.key })}
+              >
                <Text>{marker.title}</Text>
           </TouchableOpacity>
             </Body>
