@@ -4,7 +4,7 @@ import {
   View,
   Dimensions,
   InteractionManager,
-  TouchableOpacity
+  TouchableOpacity,TouchableHighlight
 } from 'react-native';
 import {
   Container,
@@ -211,32 +211,23 @@ export default class Gmap extends Component {
     coordinate={marker.coordinate}
     title={marker.title}
     description={marker.description}
-    image = {require("../assets/img/child.png")}
+    image = {require("../assets/img/child.png")} 
+    onCalloutPress={() => Actions.chat({uid: marker.key})} 
   >
-    <Callout>
+   <Callout>
       <Card>
-        <CardItem>
-          <Left>
-            {/* <Thumbnail source={require("../assets/img/child.png")} /> */}
-            <Body>
-           
-              <TouchableOpacity 
-            onPress={() => Actions.chat({uid: marker.key})}
-          >
-               <Text>{marker.title}</Text>
-          </TouchableOpacity>
-            </Body>
-          </Left>
+        <CardItem> 
+               <Text>{marker.title}</Text> 
         </CardItem>
        {/* <CardItem cardBody>
           <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}}
             style={{height: 40, width: 40, flex: 1}}/>
         </CardItem>  */}
         <CardItem footer>
-          {/* <Text>{marker.description}</Text> */}
-          <Button transparent onPress={() => Actions.chat({uid: marker.key})}>
+          <Text>{marker.description}</Text>
+          {/* <Button transparent onPress={() => Actions.chat({uid: marker.key})}>
                 <Text>Chat</Text>
-              </Button>
+              </Button> */}
         </CardItem>
       </Card>
     </Callout>
