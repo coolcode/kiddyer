@@ -195,10 +195,16 @@ export default class Gmap extends Component {
   uploadLocation(coords){
     console.log(`upload: ${coords.latitude}, ${coords.longitude}`);
     const user = firebase.auth().currentUser;
-    let data = {lat:coords.latitude, lng:coords.longitude, date: new Date()};
+    const date = new Date();
+    const data = {lat:coords.latitude, lng:coords.longitude, created: date};
     let updates = {};
     updates['/location/' + user.uid ] = data;
-    firebase.database().ref().update(updates);
+    //history
+    let trackTime = new Date().toISOString()
+                      .replace(/T/, ' ')     
+                      .replace(/\..+/, '');
+    updates[`location_history/${user.uid}/${trackTime}`] = data;
+    firebase.database().ref().update(updates); 
   }
 
   renderMaker(marker, key){
