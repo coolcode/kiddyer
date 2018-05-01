@@ -33,3 +33,9 @@ def login(request):
             # return HttpResponse(msg, status=400)
             # return HttpResponse(form.errors)
             return render(request, "app/login_test.html", {})
+
+
+def google_map(request):
+    context = {
+    }
+    return render(request, 'app/google_map.html', context)

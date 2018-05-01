@@ -29,8 +29,7 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    #login
-    url(r'^login/$', appviews.login, name='login'),
+
     url(r'^', include(router.urls)),
     url(r'^api/', include(router.urls)),
     #api
@@ -79,5 +78,9 @@ urlpatterns = [
 ]
 
 
-
+urlpatterns = [
+    #login
+    url(r'^login/$', appviews.login, name='login'),
+    url(r'^google_map/$', appviews.google_map, name='google_map'),
+]
 #urlpatterns = format_suffix_patterns(urlpatterns)
