@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 import Router from './src/Router';
 import reducers from './src/reducers';
+import ignoreWarnings from 'react-native-ignore-warnings';
 
 //gmap: AIzaSyDuAKhfwvK2xPn7qJTdQiHNZqirWZpgvGQ
 export default class App extends React.Component {

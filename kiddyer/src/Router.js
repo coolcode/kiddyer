@@ -73,9 +73,7 @@ const RouterComponent = () => {
             />
             <Scene
               key="chat"
-              component={Chat}
-              leftTitle="Done"
-              onLeft={() => Actions.family()}
+              component={Chat} 
             />
             <Scene
               key="locationHistory"
