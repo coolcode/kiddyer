@@ -12,7 +12,7 @@ import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
 import LocationHistoryDetail from './components/LocationHistoryDetail';
 import JoinGroup from './components/JoinGroup';
-import Test from './components/Test';
+import ManageMember from './components/ManageMember';
 import LoginScreen from './components/common/LoginScreen';
 
 const RouterComponent = () => {
@@ -82,9 +82,15 @@ const RouterComponent = () => {
               leftTitle="Done"
               onLeft={() => Actions.family()}
             />
-            <Scene
+            <Scene 
               key="locationDetail"
-              component={LocationHistoryDetail} 
+              component={LocationHistoryDetail} />
+ 
+            <Scene
+              key="manageMember"
+              component={ManageMember}
+              leftTitle="Done"
+              onLeft={() => Actions.family()} 
             />
           </Scene>
         </Scene>

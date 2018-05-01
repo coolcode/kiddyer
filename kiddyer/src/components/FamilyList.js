@@ -37,7 +37,7 @@ export default class FamilyList extends Component {
   editItem(groupKey) {
     console.log(`edit key: ${groupKey}`);
     this.setState({ key: groupKey });
-    Actions.invite({ id: groupKey });
+    Actions.manageMember({ id: groupKey });
   }
 
   viewOnMap(groupKey){
@@ -64,7 +64,7 @@ export default class FamilyList extends Component {
     // start listening for firebase updates
     this.listenForDatabases(this.groupsRef);
     navigator.geolocation.watchPosition((position) => {
-      console.log(`watch position!`);         
+      console.log(`watch position!`);
       //upload my location
         this.uploadLocation(position.coords);
       },
@@ -72,7 +72,7 @@ export default class FamilyList extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   }
-  
+
   uploadLocation(coords){
     console.log(`upload: ${coords.latitude}, ${coords.longitude}`);
     const user = firebase.auth().currentUser;
