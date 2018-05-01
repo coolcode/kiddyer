@@ -1,0 +1,94 @@
+/*
+Template Name: Admin pro Admin
+Author: Wrappixel
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+
+@import '../variable';
+
+/*******************
+Table- Footable
+******************/
+
+#demo-show-entries {
+    border: 0;
+    background-image: linear-gradient($themecolor, $themecolor), linear-gradient($form-brd, $form-brd);
+    background-size: 0 2px, 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center bottom, center calc(100% - 1px);
+    background-color: transparent;
+    transition: background 0s ease-out;
+    padding-bottom: 5px;
+    color: $bodytext;
+    &:focus {
+        outline: none;
+        background-image: linear-gradient($themecolor, $themecolor), linear-gradient($form-brd, $form-brd);
+        background-size: 100% 2px, 100% 1px;
+        box-shadow: none;
+        transition-duration: 0.3s;
+    }
+}
+
+#demo-input-search2 {
+    border: 0;
+    background-image: linear-gradient($themecolor, $themecolor), linear-gradient($form-brd, $form-brd);
+    background-size: 0 2px, 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center bottom, center calc(100% - 1px);
+    background-color: transparent;
+    transition: background 0s ease-out;
+    float: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin-left: 10px;
+    color: $bodytext;
+    &:focus {
+        outline: none;
+        background-image: linear-gradient($themecolor, $themecolor), linear-gradient($form-brd, $form-brd);
+        background-size: 100% 2px, 100% 1px;
+        box-shadow: none;
+        transition-duration: 0.3s;
+    }
+}
+
+.footable .pagination {
+    li {
+        a {
+            position: relative;
+            display: block;
+            padding: .5rem .75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: $bodytext;
+            background-color: $dark;
+            border: 1px solid $border;
+        }
+        &.active a {
+            z-index: 2;
+            color: $white;
+            background-color: $themecolor;
+            border-color: $themecolor;
+        }
+    }
+    li.disabled {
+        a {
+            color: $bodytext;
+            pointer-events: none;
+            cursor: not-allowed;
+            background-color: $dark;
+            border-color: $border;
+        }
+    }
+    li:first-child {
+        a {
+            margin-left: 0;
+            border-bottom-left-radius: .25rem;
+            border-top-left-radius: .25rem;
+        }
+    }
+}
+
+.footable-odd {
+    background: $light;
+}

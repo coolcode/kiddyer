@@ -224,3 +224,5 @@ class APIGetUserProfileView(APIView):
         return Response({'result data': serializer_class.data})
 
 
+
+
