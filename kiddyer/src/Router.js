@@ -10,6 +10,7 @@ import Gmap from './components/Gmap';
 import UserProfile from './components/UserProfile';
 import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
+import LocationHistoryDetail from './components/LocationHistoryDetail';
 import JoinGroup from './components/JoinGroup';
 import Test from './components/Test';
 import LoginScreen from './components/common/LoginScreen';
@@ -80,6 +81,10 @@ const RouterComponent = () => {
               component={LocationHistory}
               leftTitle="Done"
               onLeft={() => Actions.family()}
+            />
+            <Scene
+              key="locationDetail"
+              component={LocationHistoryDetail} 
             />
           </Scene>
         </Scene>
