@@ -217,12 +217,12 @@ export default class Gmap extends Component {
     coordinate={marker.coordinate}
     title={marker.title}
     description={marker.description}
-    image = {require("../assets/img/child.png")} 
+    image = {marker.key== firebase.auth().currentUser.uid ? require("../assets/img/gps.png"): require("../assets/img/kid.png")} 
     onCalloutPress={() => Actions.chat({uid: marker.key})} 
   >
    <Callout>
       <Card>
-        <CardItem> 
+        <CardItem>  
                <Text>{marker.title}</Text> 
         </CardItem>
        {/* <CardItem cardBody>
