@@ -4,7 +4,7 @@ import {
   View,
   Dimensions,
   InteractionManager,
-  TouchableOpacity
+  TouchableOpacity,TouchableHighlight
 } from 'react-native';
 import {
   Container,
@@ -119,7 +119,7 @@ export default class Gmap extends Component {
     );
 
     //load members
-
+    
     const { id } = this.props;
     console.log(`map: group id: ${id}`);
     this.loadMembers(id);
@@ -127,8 +127,8 @@ export default class Gmap extends Component {
     });
   }
 
-  loadMembers(id) {
-      const user = firebase.auth().currentUser;
+  loadMembers(id) { 
+      const user = firebase.auth().currentUser;      
       this.groupsRef = firebase.database().ref(`member_join/${user.uid}/${id}/members`)
       .once('value', (snapshot) =>{
         var items = [{uid: user.uid, email: user.email}];
@@ -143,13 +143,13 @@ export default class Gmap extends Component {
               email: val.email
             });
           }
-
+          
         console.log(`member:${val.email}, ${val.uid}`);
         });//snapshot
 
         this.members = items ;
 
-        items.forEach(item=>{
+        items.forEach(item=>{          
           let locationRef = firebase.database().ref(`location/${item.uid}`);
           locationRef.on('value', ss=>{
             let x = ss.val();
@@ -168,8 +168,8 @@ export default class Gmap extends Component {
               },
               title: item.email,
               description: `(${x.lat}, ${x.lng})`
-            };
-
+            };         
+            
             //merge markers
             var found = -1;
             for(var i=0;i<this.state.markers.length;i++){
@@ -189,16 +189,22 @@ export default class Gmap extends Component {
           this.membersRef.push(locationRef);
         });//end items
 
-      });
+      }); 
   }
 
   uploadLocation(coords){
     console.log(`upload: ${coords.latitude}, ${coords.longitude}`);
     const user = firebase.auth().currentUser;
-    let data = {lat:coords.latitude, lng:coords.longitude, date: new Date()};
+    const date = new Date();
+    const data = {lat:coords.latitude, lng:coords.longitude, created: date};
     let updates = {};
     updates['/location/' + user.uid ] = data;
-    firebase.database().ref().update(updates);
+    //history
+    let trackTime = new Date().toISOString()
+                      .replace(/T/, ' ')     
+                      .replace(/\..+/, '');
+    updates[`location_history/${user.uid}/${trackTime}`] = data;
+    firebase.database().ref().update(updates); 
   }
 
   renderMaker(marker, key){
@@ -211,30 +217,21 @@ export default class Gmap extends Component {
     coordinate={marker.coordinate}
     title={marker.title}
     description={marker.description}
-    image = {require("../assets/img/child.png")}
+    image = {marker.key== firebase.auth().currentUser.uid ? require("../assets/img/gps.png"): require("../assets/img/kid.png")} 
+    onCalloutPress={() => Actions.chat({uid: marker.key})} 
   >
-    <Callout>
+   <Callout>
       <Card>
-        <CardItem>
-          <Left>
-            <Thumbnail source={require("../assets/img/child.png")} />
-            <Body>
-
-              <TouchableOpacity
-                onPress={() => Actions.chat({ uid: marker.key })}
-              >
-               <Text>{marker.title}</Text>
-          </TouchableOpacity>
-            </Body>
-          </Left>
+        <CardItem>  
+               <Text>{marker.title}</Text> 
         </CardItem>
        {/* <CardItem cardBody>
-          <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}}
-            style={{height: 40, width: 40, flex: 1}}/>
-        </CardItem>  */}
-        <CardItem footer>
-          {/* <Text>{marker.description}</Text> */}
-        </CardItem>
+          <Image source={require("../assets/img/child.png")}
+            style={{height: 128, width: 128, flex: 1}}/>
+        </CardItem> */}
+        {/* <CardItem footer>
+          <Text>{marker.description}</Text> 
+        </CardItem> */}
       </Card>
     </Callout>
   </Marker>);
@@ -273,9 +270,10 @@ export default class Gmap extends Component {
 
         {/* <Footer>
           <FooterTab>
-            <Button transparent>
-             <Text> Maps</Text>
-            </Button>
+            
+          <Button transparent onPress={() => Actions.chat()}>
+                <Text>Chat</Text>
+              </Button>
           </FooterTab>
         </Footer> */}
       </Container>
