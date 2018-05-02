@@ -39,7 +39,9 @@ export default class LocationHistoryDetail extends Component {
             <List 
               dataArray={this.state.items}
               renderRow={(item) => (
-                <ListItem avatar title={item.created} subtitle={item.lat+","+ item.lng}> 
+                <ListItem 
+                avatar 
+                onPress={()=> Actions.locationDetailMap({lat:item.lat, lng:item.lng})}> 
                   <Left> 
                       <Thumbnail source={require('../assets/img/kid.png') } /> 
                   </Left>

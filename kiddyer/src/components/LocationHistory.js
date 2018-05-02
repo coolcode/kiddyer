@@ -11,7 +11,7 @@ export default class LocationHistory extends Component {
 
     //this.uid = this.props.uid;
     const user = firebase.auth().currentUser;
-    this.histRef = firebase.database().ref('location_hisotry').limitToLast(100);
+    this.groupRef = firebase.database().ref(`member_group/${user.uid}`).limitToLast(100);
 
     this.state = {
       items: [],
@@ -20,7 +20,24 @@ export default class LocationHistory extends Component {
   }   
 
   componentDidMount() {  
-      var items = [{uid:'udL1f8DabHVJMg908ibQZvyVc9f2', email:'bruce@test.com'}]; 
+      var items =[];// [{uid:'udL1f8DabHVJMg908ibQZvyVc9f2', email:'bruce@test.com'}]; 
+      var uids = [];
+      this.groupRef.on('value', groups=>{
+          groups.forEach(group=>{
+            console.log(group.val());
+            const members = group.val().members;
+            if(!members){
+              return;
+            }
+            members.forEach(m=>{
+              if(uids.indexOf(m.uid)<0){
+                uids.push(m.uid);
+                items.push(m);
+              }
+            });
+          });
+      });
+
       this.setState({items: items}); 
   }
    
@@ -31,15 +48,12 @@ export default class LocationHistory extends Component {
                 <List
                   dataArray={this.state.items}
                   renderRow={(item) => (
-                    <ListItem> 
-                      {/* <Left>
-                        <Button transparent
-                          block
-                          onPress={()=> this.viewOnMap(item.key)}
-                        >
-                            <Thumbnail source={require('../assets/img/child.png') } />
-                        </Button>
-                        </Left> */}
+                    <ListItem
+                    avatar
+                    onPress={()=> Actions.locationDetail({uid:item.uid})}> 
+                    <Left> 
+                      <Thumbnail source={require('../assets/img/avatar.png') } /> 
+                    </Left>
                       <Body>
                         <Text>{item.email}</Text> 
                       </Body>
