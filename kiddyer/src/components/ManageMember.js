@@ -3,6 +3,7 @@ import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Content, Form, Thumbnail, Input, Left, Body, Right, Button, Text, View, Spinner, ListItem, Icon } from 'native-base';
 import { loadData2, deleteMember } from '../actions';
+import { Actions } from 'react-native-router-flux';
 
 class ManageMember extends Component {
 
@@ -35,6 +36,14 @@ class ManageMember extends Component {
                   <Body>
                     <Text>{rowData.email}</Text>
                   </Body>
+                  <Right> 
+                    <Button transparent
+                      block
+                      onPress={()=> Actions.locationHistoryToMap({uid:rowData.uid})}
+                    > 
+                        <Icon name="map" />
+                    </Button>
+                  </Right>
                   <Right style={{ borderColor: 'transparent' }}>
                     <Button
                       style={{ marginBottom: 5 }}
