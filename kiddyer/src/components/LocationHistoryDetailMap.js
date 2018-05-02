@@ -77,8 +77,8 @@ export default class LocationHistoryDetailMap extends Component {
     <Marker
       key={key}
       coordinate={marker.coordinate}
-      title={marker.title}
-      description={marker.description}
+      // title={marker.title}
+      // description={marker.description}
       image={require("../assets/img/kid.png")}  
     > 
     </Marker>);
