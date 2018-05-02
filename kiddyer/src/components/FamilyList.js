@@ -63,6 +63,17 @@ export default class FamilyList extends Component {
   componentDidMount() {
     // start listening for firebase updates
     this.listenForDatabases(this.groupsRef);
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(`current location!`);
+        //upload my location
+          this.uploadLocation(position.coords);
+        },
+        (error) => {},
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      );
+      
     navigator.geolocation.watchPosition((position) => {
       console.log(`watch position!`);
       //upload my location
@@ -76,10 +87,16 @@ export default class FamilyList extends Component {
   uploadLocation(coords){
     console.log(`upload: ${coords.latitude}, ${coords.longitude}`);
     const user = firebase.auth().currentUser;
-    let data = {lat:coords.latitude, lng:coords.longitude, date: new Date()};
+    const date = new Date();
+    const data = {lat:coords.latitude, lng:coords.longitude, created: date};
     let updates = {};
     updates['/location/' + user.uid ] = data;
-    firebase.database().ref().update(updates);
+    //history
+    let trackTime = new Date().toISOString()
+                      .replace(/T/, ' ')     
+                      .replace(/\..+/, '');
+    updates[`location_history/${user.uid}/${trackTime}`] = data;
+    firebase.database().ref().update(updates); 
   }
 
   // re-fetch the data to replace the console.log
