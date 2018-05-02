@@ -2,7 +2,6 @@
 import React from 'react';
 import { Actions, Router, Scene } from 'react-native-router-flux';
 import { Root } from 'native-base';
-import Login from './components/Login';
 import Register from './components/Register';
 import FamilyList from './components/FamilyList';
 import InviteMember from './components/InviteMember';
@@ -16,6 +15,7 @@ import LocationHistoryToMap from './components/LocationHistoryToMap';
 import JoinGroup from './components/JoinGroup';
 import ManageMember from './components/ManageMember';
 import LoginScreen from './components/common/LoginScreen';
+import JoinedGroup from './components/JoinedGroup';
 
 const RouterComponent = () => {
   return (
@@ -47,6 +47,11 @@ const RouterComponent = () => {
               // onRight={() => Actions.invite()}
               // onLeft={() => Actions.auth()}
               initial
+            />
+            <Scene
+              key="joinedGroup"
+              component={JoinedGroup}
+              title="Joined Group"
             />
             <Scene
               key="invite"
@@ -89,7 +94,7 @@ const RouterComponent = () => {
               component={LocationHistoryDetail}
             />
 
-            <Scene 
+            <Scene
               key="locationDetailMap"
               component={LocationHistoryDetailMap}
             />
