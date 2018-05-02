@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Content, Form, Item, Input, Button, Text, View, Spinner } from 'native-base';
+import { Container, Content, Form, Item, Input, Button, Text, View, Spinner, Toast } from 'native-base';
 import { emailChanged, passwordChanged, createUser } from '../actions';
 
 
@@ -30,6 +30,24 @@ class Register extends Component {
       );
     }
   }
+
+  renderError2() {
+      if (this.props.error) {
+        return (
+          // <View style={{ backgroundColor: 'white' }}>
+          //   <Text style={styles.errorTextStyle}>
+          //     {this.props.error}
+          //   </Text>
+          // </View>
+          Toast.show({
+                text: 'Register Failed',
+                buttonText: 'OK',
+                type: 'fail',
+                duration: 3000
+              })
+        );
+      }
+    }
 
   renderButton() {
     if (this.props.loading) {
@@ -67,7 +85,7 @@ class Register extends Component {
               />
             </Item>
           </Form>
-          {this.renderError()}
+          {this.renderError2()}
           {this.renderButton()}
         </Content>
       </Container>

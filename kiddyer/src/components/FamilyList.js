@@ -45,7 +45,7 @@ export default class FamilyList extends Component {
   }
 
   listenForDatabases(groupsRef){
-    groupsRef.once('value', groups => {
+    groupsRef.on('value', groups => {
       var items = [];
       groups.forEach( (item)=> {
         var key = item.key;
@@ -87,6 +87,18 @@ export default class FamilyList extends Component {
     this.setState({ refreshing: true });
     console.log('hi');
     this.setState({ refreshing: false });
+  }
+
+  deleteGroup(groupKey) {
+    const user = firebase.auth().currentUser;
+    const groupTable = firebase.database().ref(`groups/${groupKey}`);
+    const memberTable = firebase.database().ref(`member_group/${user.uid}/${groupKey}`);
+    const memberJoin = firebase.database().ref(`member_join/${user.uid}/${groupKey}`);
+    groupTable.remove();
+    memberTable.remove();
+    memberJoin.remove();
+
+    Actions.family();
   }
 
   render() {
@@ -148,11 +160,27 @@ export default class FamilyList extends Component {
                       </Body>
                       <Right>
                         <Button
+                          style={{ marginTop: -8 }}
                           block
                           onPress={()=> this.editItem(item.key)}
+                          transparent
                         >
                             {/* <Text> Manage </Text> */}
-                            <Icon name="arrow-forward" />
+                            <Icon
+                              style={{ marginTop: 3 }}
+                              name="people"
+                            />
+                        </Button>
+                      </Right>
+                      <Right>
+                        <Button
+                          danger
+                          style={{ marginTop: -8 }}
+                          block
+                          transparent
+                          onPress={() => this.deleteGroup(item.key)}
+                        >
+                          <Icon name="trash" />
                         </Button>
                       </Right>
                     </ListItem>
