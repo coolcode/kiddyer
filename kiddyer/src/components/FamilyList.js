@@ -15,7 +15,7 @@ export default class FamilyList extends Component {
 
     const user = firebase.auth().currentUser;
     this.groupsRef = firebase.database().ref('member_group/'+ user.uid).limitToLast(100);
-
+    this.groupJoinRef = firebase.database().ref('member_join'+ user.uid).limitToLast(100);
     this.state = {
       items: [],
       refreshing: false,
@@ -44,9 +44,10 @@ export default class FamilyList extends Component {
     Actions.viewOnMap({ id: groupKey });
   }
 
-  listenForDatabases(groupsRef){
+  listenForDatabases(groupsRef) {
+    var items = [];
+
     groupsRef.on('value', groups => {
-      var items = [];
       groups.forEach( (item)=> {
         var key = item.key;
         var val = item.val();
@@ -56,7 +57,7 @@ export default class FamilyList extends Component {
           groupCode: val.groupCode
         });
       });
-      this.setState({items: items});
+      this.setState({ items: items });
     });
   }
 
