@@ -31,6 +31,8 @@ componentWillMount() {
   };
 
   firebase.initializeApp(firebaseConf_Bruce);
+  ignoreWarnings('Setting a timer');
+  ignoreWarnings('e');
 }
 
 
