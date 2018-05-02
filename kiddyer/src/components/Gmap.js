@@ -31,7 +31,7 @@ import timer from 'react-native-timer';
 export default class Gmap extends Component {
   constructor(props){
     super(props);
-    this.zoom = 0.1992;
+    this.zoom = 0.0520;
     this.state = {
       loading: true,
       region: {
