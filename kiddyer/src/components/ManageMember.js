@@ -6,7 +6,7 @@ import { loadData2, deleteMember } from '../actions';
 
 class ManageMember extends Component {
 
-  componentDidMount() {
+  componentWillMount() {
     //dispatch({ type: CREATE_MEMBERGROUP });
 
     console.log(this.props);
@@ -26,26 +26,28 @@ class ManageMember extends Component {
           <FlatList
             data={this.props.members}
             renderItem={({ item: rowData, index }) => {
+              if (rowData) {
               return (
                 <ListItem avatar>
                   <Left>
                     <Thumbnail source={require('../assets/img/child.png') } />
                   </Left>
                   <Body>
-                    <Text>{index}</Text>
                     <Text>{rowData.email}</Text>
                   </Body>
-                  <Right>
+                  <Right style={{ borderColor: 'transparent' }}>
                     <Button
-                      iconLeft danger small
+                      style={{ marginBottom: 5 }}
+                      danger
+                      transparent
                       onPress={() => this.onButtonPress(index)}
                     >
                       <Icon name="trash" />
-                      <Text>Delete</Text>
                     </Button>
                   </Right>
                 </ListItem>
               );
+            }
             }}
             keyExtractor={(item, index) => index}
           />
