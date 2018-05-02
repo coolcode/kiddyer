@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Content, Form, Item, Input, Button, Text, View, Spinner } from 'native-base'; 
+import { Container, Content, Form, Item, Input, Button, Text, View, Spinner, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 
@@ -14,8 +14,8 @@ class JoinGroup extends Component {
       groupCode: '',
     };
   }
-  
-  componentDidMount() {      
+
+  componentDidMount() {
     console.log(this.props);
     const { id } = this.props;
     console.log(`load group key: ${id}`);
@@ -24,16 +24,16 @@ class JoinGroup extends Component {
   }
 
   onGroupCodeChange(text) {
-     this.setState({groupCode: text}); 
-     console.log(`group code: ${text}`); 
+     this.setState({groupCode: text});
+     console.log(`group code: ${text}`);
   }
 
-  onButtonPress() {  
-    console.log(`group code: ${this.state.groupCode}`); 
-    //join 
-    
+  onButtonPress() {
+    console.log(`group code: ${this.state.groupCode}`);
+    //join
+
     const user = firebase.auth().currentUser;
-    var groupsRef = firebase.database().ref('groups').limitToLast(1000);    
+    var groupsRef = firebase.database().ref('groups').limitToLast(1000);
     // find group by its code5
     groupsRef.once('value', groups => {
       var items = [];
@@ -49,23 +49,23 @@ class JoinGroup extends Component {
         }
       });
 
-      if(items.length == 0) {
+      if (items.length === 0) {
          console.log('Error! Group Code Is Not Found!');
          this.setState( {error : 'Group code is not found!'});
          return;
       }
 
       var groupItem = items[0];
-      
+
       let key = groupItem.key;
       let data = groupItem.val;
 
       if(!data.members){
         data.members = [];
-      } 
+      }
 
       data.members.push({
-        uid: user.uid, 
+        uid: user.uid,
         email: user.email
       });
 
@@ -77,21 +77,25 @@ class JoinGroup extends Component {
 
       Actions.family();
     });
+  }
 
-    
-  }
- 
   renderError() {
-    if (this.state.error) {
-      return (
-        <View style={{ backgroundColor: 'white' }}>
-          <Text style={styles.errorTextStyle}>
-            {this.state.error}
-          </Text>
-        </View>
-      );
+      if (this.props.error) {
+        return (
+          <View style={{ backgroundColor: 'white' }}>
+            <Text style={styles.errorTextStyle}>
+              {this.props.error}
+            </Text>
+          </View>
+        //   Toast.show({
+        //         text: 'ok',
+        //         buttonText: 'OK',
+        //         type: 'success',
+        //         duration: 3000
+        //       })
+        );
+      }
     }
-  }
 
   renderButton() {
     if (this.state.loading) {
@@ -114,12 +118,12 @@ class JoinGroup extends Component {
           <Form>
             <Item>
               <Input
-                placeholder="Group Code" 
+                placeholder="Group Code"
                 autoCapitalize="none"
                 onChangeText={this.onGroupCodeChange.bind(this)}
                 value={this.state.groupCode}
               />
-            </Item>  
+            </Item>
           </Form>
           {this.renderError()}
           {this.renderButton()}
@@ -136,5 +140,5 @@ const styles = {
     color: 'red',
   }
 };
- 
+
 export default JoinGroup;
