@@ -28,7 +28,10 @@ export default class LocationHistoryDetail extends Component {
         items.push(val);
         console.log(`d:${val.created}`);
       });
-      this.setState({items: items});
+      this.setState({items: items, 
+        message: items.length==0?"No Data":''
+      });
+
     });
   }
    
@@ -36,6 +39,9 @@ export default class LocationHistoryDetail extends Component {
     return ( 
       <Container>  
       <Content>
+      {this.state.message ? ( 
+                <Title style={{ color: 'black' }}>{this.state.message}</Title>
+              ):(
             <List 
               dataArray={this.state.items}
               renderRow={(item) => (
@@ -51,10 +57,8 @@ export default class LocationHistoryDetail extends Component {
                     </Body>  
                 </ListItem>
               )}
-            />
+            />)}
       </Content>
-
-
    </Container>  
     );
   }

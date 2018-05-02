@@ -12,6 +12,7 @@ import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
 import LocationHistoryDetail from './components/LocationHistoryDetail';
 import LocationHistoryDetailMap from './components/LocationHistoryDetailMap';
+import LocationHistoryToMap from './components/LocationHistoryToMap';
 import JoinGroup from './components/JoinGroup';
 import ManageMember from './components/ManageMember';
 import LoginScreen from './components/common/LoginScreen';
@@ -91,6 +92,10 @@ const RouterComponent = () => {
             <Scene 
               key="locationDetailMap"
               component={LocationHistoryDetailMap}
+            />
+            <Scene
+              key="locationHistoryToMap"
+              component={LocationHistoryToMap}
             />
 
             <Scene

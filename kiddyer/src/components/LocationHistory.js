@@ -50,7 +50,7 @@ export default class LocationHistory extends Component {
                   renderRow={(item) => (
                     <ListItem
                     avatar
-                    onPress={()=> Actions.locationDetail({uid:item.uid})}> 
+                     > 
                     <Left> 
                       <Thumbnail source={require('../assets/img/avatar.png') } /> 
                     </Left>
@@ -60,9 +60,17 @@ export default class LocationHistory extends Component {
                       <Right>
                         <Button transparent
                           block
+                          onPress={()=> Actions.locationHistoryToMap({uid:item.uid})}
+                        > 
+                            <Icon name="map" />
+                        </Button> 
+                      </Right>
+                      <Right> 
+                        <Button transparent
+                          block
                           onPress={()=> Actions.locationDetail({uid:item.uid})}
                         > 
-                            <Icon name="arrow-forward" />
+                            <Icon name="keypad" />
                         </Button>
                       </Right>
                     </ListItem>

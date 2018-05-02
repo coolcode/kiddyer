@@ -39,17 +39,7 @@ export default class Gmap extends Component {
       },
       markers: [],
     };
-
-        /*opera house */
-    /**{
-        key: "maker1",
-        coordinate:{
-          latitude: -33.8655721,
-          longitude:  151.2048194,
-        },
-        title: "Kid",
-        description: "Where I am?"
-      } */
+ 
     this.members = [];
     this.membersRef = [];
   }
@@ -95,18 +85,7 @@ export default class Gmap extends Component {
             longitude: position.coords.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0922 * ratio,
-          },
-          // markers: [{
-          //   key: "maker1",
-          //   /*opera house */
-          //   coordinate:{
-          //     latitude: position.coords.latitude,
-          //     longitude: position.coords.longitude,
-          //   },
-          //   title: "Kid",
-          //   description: "Where I am?",
-          //   image: "../assets/child.png"
-          // }],
+          }, 
           error: null,
           });
 
@@ -133,7 +112,7 @@ export default class Gmap extends Component {
       .once('value', (snapshot) =>{
         var items = [{uid: user.uid, email: user.email}];
         this.membersRef = [];
-        snapshot.forEach( (item)=> {
+        snapshot.forEach( item=> {
           var key = item.key;
           var val = item.val();
           if(val){
