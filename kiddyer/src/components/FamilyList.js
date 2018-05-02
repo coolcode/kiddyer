@@ -40,14 +40,13 @@ export default class FamilyList extends Component {
     Actions.manageMember({ id: groupKey });
   }
 
-  viewOnMap(groupKey){
+  viewOnMap(groupKey) {
     Actions.viewOnMap({ id: groupKey });
   }
 
-  listenForDatabases(groupsRef) {
-    var items = [];
-
+  listenForDatabases(groupsRef){
     groupsRef.on('value', groups => {
+      var items = [];
       groups.forEach( (item)=> {
         var key = item.key;
         var val = item.val();
@@ -57,14 +56,14 @@ export default class FamilyList extends Component {
           groupCode: val.groupCode
         });
       });
-      this.setState({ items: items });
+      this.setState({items: items});
     });
   }
 
   componentDidMount() {
     // start listening for firebase updates
     this.listenForDatabases(this.groupsRef);
-    
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         console.log(`current location!`);
@@ -74,7 +73,7 @@ export default class FamilyList extends Component {
         (error) => {},
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
-      
+
     navigator.geolocation.watchPosition((position) => {
       console.log(`watch position!`);
       //upload my location
@@ -94,10 +93,10 @@ export default class FamilyList extends Component {
     updates['/location/' + user.uid ] = data;
     //history
     let trackTime = new Date().toISOString()
-                      .replace(/T/, ' ')     
+                      .replace(/T/, ' ')
                       .replace(/\..+/, '');
     updates[`location_history/${user.uid}/${trackTime}`] = data;
-    firebase.database().ref().update(updates); 
+    firebase.database().ref().update(updates);
   }
 
   // re-fetch the data to replace the console.log
