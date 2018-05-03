@@ -80,14 +80,24 @@ export default class LocationHistoryToMap extends Component {
         }
 
         var lastCoord = coords[coords.length-1];
+        //only keep last marker
+        markers = [];
+        markers.push({ 
+          coordinate: {
+            latitude: lastCoord.latitude,
+            longitude: lastCoord.longitude
+          },
+          title: `${lastCoord.title}`
+          });
+ 
         //state        
         this.setState({
           loading: false,
           region: {
             latitude: lastCoord.latitude,
             longitude: lastCoord.longitude, 
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0922 * ratio,
+            latitudeDelta: 0.0222,
+            longitudeDelta: 0.0222 * ratio,
           },
           markers:markers,
           coords: coords
@@ -133,9 +143,9 @@ export default class LocationHistoryToMap extends Component {
               >
               <Polyline
                 coordinates={this.state.coords}
-                strokeColor="#FF0000" // fallback for when `strokeColors` is not supported by the map-provider
+                strokeColor="green" // fallback for when `strokeColors` is not supported by the map-provider
                 strokeColors={[
-                  '#FF0000'
+                  'green'
                 ]}
                 strokeWidth={4}
               />
