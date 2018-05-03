@@ -116,7 +116,7 @@ export default class LocationHistoryToMap extends Component {
       coordinate={marker.coordinate} 
       title={marker.title}
       image={require("../assets/img/kid.png")}  
-    > 
+    >  
     </Marker>);
   }
 
