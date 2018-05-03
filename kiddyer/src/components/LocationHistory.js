@@ -17,10 +17,10 @@ export default class LocationHistory extends Component {
       items: [],
       refreshing: false,
     };
-  }   
+  }
 
-  componentDidMount() {  
-      var items =[];// [{uid:'udL1f8DabHVJMg908ibQZvyVc9f2', email:'bruce@test.com'}]; 
+  componentDidMount() {
+      var items =[];// [{uid:'udL1f8DabHVJMg908ibQZvyVc9f2', email:'bruce@test.com'}];
       var uids = [];
       this.groupRef.on('value', groups=>{
           groups.forEach(group=>{
@@ -38,38 +38,38 @@ export default class LocationHistory extends Component {
           });
       });
 
-      this.setState({items: items}); 
+      this.setState({items: items});
   }
-   
+
   render() {
-    return ( 
-       <Container> 
+    return (
+       <Container>
           <Content>
                 <List
                   dataArray={this.state.items}
                   renderRow={(item) => (
                     <ListItem
                     avatar
-                     > 
-                    <Left> 
-                      <Thumbnail source={require('../assets/img/avatar.png') } /> 
+                     >
+                    <Left>
+                      <Thumbnail source={require('../assets/img/avatar.png') } />
                     </Left>
                       <Body>
-                        <Text>{item.email}</Text> 
+                        <Text>{item.email}</Text>
                       </Body>
-                      <Right>
+                      <Right style={{ borderColor: 'transparent' }}>
                         <Button transparent
                           block
                           onPress={()=> Actions.locationHistoryToMap({uid:item.uid})}
-                        > 
+                        >
                             <Icon name="map" />
                         </Button> 
                       </Right>
-                      <Right> 
+                      <Right style={{ borderColor: 'transparent' }}>
                         <Button transparent
                           block
                           onPress={()=> Actions.locationDetail({uid:item.uid})}
-                        > 
+                        >
                             <Icon name="keypad" />
                         </Button>
                       </Right>
@@ -79,7 +79,7 @@ export default class LocationHistory extends Component {
           </Content>
 
 
-       </Container>  
+       </Container>
     );
   }
 }

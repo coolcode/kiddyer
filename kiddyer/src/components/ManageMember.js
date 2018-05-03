@@ -20,6 +20,21 @@ class ManageMember extends Component {
     this.props.deleteMember(this.props.id, index);
   }
 
+  renderDelete(isDelete, index) {
+    if (isDelete) {
+      return (
+        <Button
+          style={{ marginBottom: 5 }}
+          danger
+          transparent
+          onPress={() => this.onButtonPress(index)}
+        >
+          <Icon name="trash" />
+        </Button>
+    );
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -36,23 +51,17 @@ class ManageMember extends Component {
                   <Body>
                     <Text>{rowData.email}</Text>
                   </Body>
-                  <Right> 
-                    <Button transparent
+                  <Right style={{ borderColor: 'transparent' }}>
+                    <Button
+                      transparent
                       block
                       onPress={()=> Actions.locationHistoryToMap({uid:rowData.uid})}
-                    > 
+                    >
                         <Icon name="map" />
                     </Button>
                   </Right>
                   <Right style={{ borderColor: 'transparent' }}>
-                    <Button
-                      style={{ marginBottom: 5 }}
-                      danger
-                      transparent
-                      onPress={() => this.onButtonPress(index)}
-                    >
-                      <Icon name="trash" />
-                    </Button>
+                    {this.renderDelete(this.props.deleteAuth, index)}
                   </Right>
                 </ListItem>
               );

@@ -34,8 +34,14 @@ export default class FamilyList extends Component {
 
   editItem(groupKey) {
     console.log(`edit key: ${groupKey}`);
-    this.setState({ key: groupKey });
-    Actions.manageMember({ id: groupKey });
+    this.setState({
+                    key: groupKey,
+                    deleteAuth: true
+                  });
+    Actions.manageMember({
+                    id: groupKey,
+                    deleteAuth: true,
+                  });
   }
 
   viewOnMap(groupKey) {

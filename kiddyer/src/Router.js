@@ -106,8 +106,6 @@ const RouterComponent = () => {
             <Scene
               key="manageMember"
               component={ManageMember}
-              leftTitle="Done"
-              onLeft={() => Actions.family()}
             />
           </Scene>
         </Scene>

@@ -18,7 +18,7 @@ export default class Sidebar extends Component {
         <Button style={styles.button} block primary onPress={() => Actions.profile()}><Text> User Profile </Text></Button>
         <Button style={styles.button} block primary onPress={() => Actions.joinedGroup()}><Text> Joined Group </Text></Button>
         <Button style={styles.button} block light onPress={() => Actions.chat()}><Text> Message</Text></Button>
-        <Button style={styles.button} block light onPress={() => Actions.locationHistory({ id: 123 })}><Text> Location History</Text></Button>
+        <Button style={styles.button} block light onPress={() => Actions.locationHistory()}><Text> Location History</Text></Button>
         <Button
           style={styles.button} block danger
           onPress={() => Actions.auth()}

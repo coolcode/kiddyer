@@ -9,7 +9,7 @@ export default class JoinedGroup extends Component {
     super(props);
 
     const user = firebase.auth().currentUser;
-    this.groupsRef = firebase.database().ref('member_join'+ user.uid).limitToLast(100);
+    this.groupsRef = firebase.database().ref('member_join/'+ user.uid).limitToLast(100);
     this.state = {
       items: [],
       refreshing: false,
@@ -22,8 +22,14 @@ export default class JoinedGroup extends Component {
 
   editItem(groupKey) {
     console.log(`edit key: ${groupKey}`);
-    this.setState({ key: groupKey });
-    Actions.manageMember({ id: groupKey });
+    this.setState({
+                    key: groupKey,
+                    deleteAuth: false
+                  });
+    Actions.manageMember({
+                    id: groupKey,
+                    deleteAuth: false
+                  });
   }
 
   viewOnMap(groupKey) {
