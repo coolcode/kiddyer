@@ -5,24 +5,42 @@
     <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.4.1.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <style>
+        @media (min-width: 1200px) {
+            .container {
+                width: 1234px;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>PubNub + Google Maps </h1>
-    <div id="map-canvas" style="width:800px;height:500px"></div>
+    <h1>Kiddyer | Google Map </h1>
+    <div id="map" style="width:1200px;height: 520px;"></div>
+    <div>
+        <label class="lat" for="lat">Lat: {{ lat_firebase }}</label>
+    </div>
     <div id="msg"></div>
 </div>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD_UXHyOwQsMOAEJ_WyW7VJwnOdYZGJs4I"></script>
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 <script>
+
     //opera house
-    window.lat = -33.8655721;
-    window.lng = 151.2048194;
+    /* window.lat = -33.8655721;
+     window.lng = 151.2048194;
+     str = {{ lng_firebase }};
     var map;
     var mark;
     var lineCoords = [];
     var initialize = function () {
         navigator.geolocation.getCurrentPosition(function (position) {
-            window.lat = position.coords.latitude;
-            window.lng = position.coords.longitude;
+            //window.lat = position.coords.latitude;
+            //window.lng = position.coords.longitude;
+            window.lat = {{ lat_firebase }};
+            window.lng = {{ lng_firebase }};
 
             map = new google.maps.Map(document.getElementById('map-canvas'), {center: {lat: lat, lng: lng}, zoom: 16});
             mark = new google.maps.Marker(
@@ -40,8 +58,11 @@
 
     window.initialize = initialize;
     var redraw = function (payload) {
-        lat = payload.message.lat;
-        lng = payload.message.lng;
+        lat = {{ lat_firebase }};
+        lng = {{ lng_firebase }};
+
+        //lat = payload.message.lat;
+        //lng = payload.message.lng;
         map.setCenter({lat: lat, lng: lng, alt: 0});
         mark.setPosition({lat: lat, lng: lng, alt: 0});
         lineCoords.push(new google.maps.LatLng(lat, lng));
@@ -86,11 +107,150 @@
             loc.lng += 0.0003;
         }
         return loc;
+    }*/
+
+
+    // Set the configuration for your app
+    // TODO: Replace with your project's config object
+    var config = {
+        apiKey: "AIzaSyBXnaPx5N8UmQueH1dZyVcrlzQG67RePLI",
+        authDomain: "kiddyer-3752e.firebaseapp.com",
+        databaseURL: "https://kiddyer-3752e.firebaseio.com",
+        storageBucket: "kiddyer-3752e.appspot.com",
+        messagingSenderId: "866110809127"
+    };
+    firebase.initializeApp(config);
+
+    // Get a reference to the database service
+    var database = firebase.database();
+    var userId = "udL1f8DabHVJMg908ibQZvyVc9f2";
+    var groupId = "-LAc6thpQEvdkSAR5Aib";
+
+
+    var member_uid = [];
+
+
+
+    function getMembers() {
+        var members = firebase.database().ref('member_group/' + userId + '/' + groupId + '/members');
+        //console.log();
+        //alert(members);
+        members.on('value', function (snapshot) {
+            member_obj = snapshot.val();
+            //console.log(member_obj);
+           // alert('member group');
+            var member_keys = Object.keys(member_obj);
+            var member_info = [];
+            for (var i in member_keys) {
+                //console(i);
+                //alert(i);
+                member_info.push(member_obj[member_keys[i]]);
+            }
+
+            for (var j in member_info) {
+                member_uid.push(member_info[j].uid)
+            }
+            console.log('location1');
+            getMemberLocation();
+
+
+        })
     }
 
+
+
+
+
+    function getMemberLocation() {
+        var location_data = firebase.database().ref('location/');
+        location_data.on('value', function (snapshot) {
+
+            var location_keys = snapshot.val();
+            var location_Info = [];
+            var location_group = [];
+            //alert('location');
+            console.log('location2');
+            for (var i in location_keys) {
+                //console.log(i);
+                var uId = i;
+                for (var j in member_uid) {
+                    if (uId == member_uid[j]) {
+                        location_Info.push(location_keys[uId]);
+                        //console.log(location_Info);
+                        //console.log(location_Info[j].lat);
+                        var lat = location_Info[j].lat;
+                        var lng = location_Info[j].lng;
+                        var location_single = [lat, lng];
+                        //console.log(location_single);
+                        location_group.push(location_single);
+                    }
+                }
+
+            }
+            console.log(location_group);
+            loadMap(location_group);
+        })
+
+
+    }
+
+    //getMemberLocation();
+
+    function loadMap(locationGroup) {
+        console.log('location3');
+
+
+        var map;
+        var mark;
+        var bounds = new google.maps.LatLngBounds();
+
+        var mapOptions = {
+            mapTypeId: 'roadmap'
+        };
+
+        // Display a map on the page
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        map.setTilt(45);
+
+        // Multiple Markers
+        var markers = locationGroup;
+        //console.log(markers);
+
+        // Info Window Content
+        //var infoWindowContent = location_group;
+
+        //var infoWindow = new google.maps.InfoWindow();
+        var marker, i;
+
+        console.log('location4');
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: new google.maps.LatLng(markers[1][0], markers[1][1]),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        for (i = 0; i < markers.length; i++) {
+              var position = new google.maps.LatLng(markers[i][0], markers[i][1]);
+              bounds.extend(position);
+                //alert(position);
+               marker = new google.maps.Marker(
+                    {
+                        position: position,
+                        map: map,
+                        icon: 'http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png',
+                        title: 'Kid',
+                        animation: google.maps.Animation.DROP
+                    });
+
+
+        }
+    }
+
+    getMembers();
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD_UXHyOwQsMOAEJ_WyW7VJwnOdYZGJs4I&callback=initialize"></script>
 
 </body>
 </html>

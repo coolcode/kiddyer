@@ -1,0 +1,270 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/favicon.png'%}">
+    <title>Kiddyer</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="{% static 'css/colors/megna-dark.css' %}" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header card-no-border fix-sidebar">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+       <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="user-profile"> <a class="waves-effect waves-dark" href="#" aria-expanded="false"><img src="{% static 'assets/images/users/profile.png' %}" alt="user" /><span class="hide-menu">Bruce </span></a>
+                        </li>
+                        <li class="nav-devider"></li>
+                        <li> <a class="waves-effect waves-dark" href="{% url 'member' %}" aria-expanded="false"><i class="mdi mdi-contact-mail"></i><span class="hide-menu">Member</span></a>
+                        </li>
+                        <li> <a class="waves-effect waves-dark" href="{% url 'calendar' %}" aria-expanded="false"><i class="mdi mdi-calendar"></i><span class="hide-menu">Calendar</span></a>
+                        </li>
+                        <!--<li> <a class="waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false" class="google_map"><i class="mdi mdi-map-marker"></i><span class="hide-menu">GPS Location</span></a>-->
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Horizontal navbar and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="row hdr-nav-bar">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav mr-auto">
+                                <!-- Nav item -->
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="javascript:void(0)">Home</a>
+                                </li>
+                            </ul>
+                            <div class="call-to-act">
+                                <div class="d-flex no-block">
+                                    <div class="ml-auto">
+                                        <a href="javascript:void(0)" onClick="document.getElementById('logoutform').submit()"><button type="button" class="btn btn-success btn-rounded"><i class="fa fa-sign-out"></i>Logout</button></a>
+                                        <form id="logoutform" method="POST" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Horizontal navbar and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h3 class="text-themecolor">Member</h3>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- .row -->
+                <div class="row">
+                    <!-- .col -->
+                    {% if group_name %}
+                        {% for name in group_name %}
+                            <div class="col-md-6 col-lg-6 col-xlg-4">
+                                <div class="card card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-3 text-center">
+                                            <a href="javascript:void(0)"><img src="{% static 'assets/images/users/1.png' %}" alt="user" class="img-circle img-responsive" onclick="loadMap('{{ name }}')"></a>
+                                        </div>
+                                        <div class="col-md-8 col-lg-9">
+                                            <h3 class="box-title m-b-0">{{ name }}</h3>
+                                            <h4>Kiddyer</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer"> © 2018 Kiddyer Pro by Dr. Shiping Chen </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'assets/plugins/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static 'js/perfect-scrollbar.jquery.min.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static 'js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static 'js/sidebarmenu.js' %}"></script>
+    <!--stickey kit -->
+    <script src="{% static 'assets/plugins/sticky-kit-master/dist/sticky-kit.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/sparkline/jquery.sparkline.min.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static 'js/custom.min.js' %}"></script>
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    <script src="{% static 'assets/plugins/styleswitcher/jQuery.style.switcher.js' %}"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+
+    <script>
+
+        /*$(document).ready(function(){
+            alert('append');
+
+	        $("body").append("<p>Test</p>");
+
+        });*/
+
+       /* var config = {
+            apiKey: "AIzaSyBXnaPx5N8UmQueH1dZyVcrlzQG67RePLI",
+            authDomain: "kiddyer-3752e.firebaseapp.com",
+            databaseURL: "https://kiddyer-3752e.firebaseio.com",
+            projectId: "kiddyer-3752e",
+            storageBucket: "kiddyer-3752e.appspot.com",
+            messagingSenderId: "866110809127"
+        };
+
+
+        var userId = '{{ uid }}';
+
+        function initFirebase() {
+
+            //USER ID EXIST
+            if (!!userId){
+                console.log(userId);
+
+                firebase.initializeApp(config);
+
+                // Get a reference to the database service
+                var database = firebase.database();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function getGroupName() {
+          //var members = firebase.database().ref('member_group/' + userId + '/' + groupId + '/members');
+          var keys = firebase.database().ref('member_group/' + userId);
+          //console.log();
+
+          keys.on('value', function (snapshot) {
+
+              group_obj = snapshot.val();
+              console.log(group_obj);
+
+              var group_keys = Object.keys(group_obj);
+              var grouop_info = [];
+              for (var i in group_keys) {
+                //console(i);
+                //alert(i);
+                 grouop_info.push(group_obj[group_keys[i]]);
+              }
+
+              console.log(grouop_info);
+              var group_name = [];
+
+              for (var j in grouop_info) {
+                  group_name.push(grouop_info[j].groupName);
+              }
+              console.log(group_name);
+              console.log('location1');
+        })
+    }
+    if (initFirebase()) {
+        getGroupName();
+    }*/
+    function loadMap(groupName) {
+        /*var data = {'group_name': groupName}
+        $.post("{% url 'home' %}", data, function(response){
+            alert("post group name");
+        });*/
+        var location = {% url 'home' %}+'?'+ 'group_name='+groupName;
+        //alert(location);
+        window.location.href = location;
+
+    }
+    </script>
+</body>
+
+</html>

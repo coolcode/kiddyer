@@ -75,12 +75,15 @@ urlpatterns = [
     #api/v1/user_profile/
     url(r'^api/v1/user_profile/(?P<pk>[0-9]+)$', views.APIGetUserProfileView.as_view(), name='api-v1-get-profile'),
 
-]
-
-
-urlpatterns = [
-    #login
+#login
     url(r'^login/$', appviews.login, name='login'),
+    url(r'^logout/$', appviews.logout, name='logout'),
     url(r'^google_map/$', appviews.google_map, name='google_map'),
+    url(r'^home/$', appviews.home, name='home'),
+    url(r'^calendar/$', appviews.calendar, name='calendar'),
+    url(r'^member/$', appviews.member, name='member'),
+
 ]
+
+
 #urlpatterns = format_suffix_patterns(urlpatterns)
