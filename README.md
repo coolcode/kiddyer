@@ -218,3 +218,58 @@ cd android && ./gradlew assembleRelease
 ```
 
 The generated APK can be found under android/app/build/outputs/apk/app-release.apk, and is ready to be distributed.
+
+# Configuration
+
+This project is using [Firebase](https://firebase.google.com/) as our real-time database and authentication tools.
+
+The configuration is necessary while you want to use your own Firebase account so that you will be able to monitoring the account behavior and design databases.
+
+## Create a new project
+
+If you have a Google account, you will be able to login at [Firebase](https://firebase.google.com/) and then go to the developer console.
+
+Add a new project:
+
+![image](https://koenig-media.raywenderlich.com/uploads/2018/02/02-Add-a-project.png)
+
+Then, you need to click "Add firebase to your web app"
+
+![image](https://koenig-media.raywenderlich.com/uploads/2018/03/03-Project-Overview.png)
+
+And you will be able to see the configuration like this:
+
+![image](http://shiffman.net/a2z/images/firebase1.png)
+
+Modify the configuration structure so that it can keep similiar with the source code:
+
+### kiddyer/App.js
+
+```
+componentWillMount() {
+  const firebaseConf_Will = {
+    apiKey: 'AIzaSyACti3poX0jG2tGD6cS-uZ25fDgHwDMorw',
+    authDomain: 'kiddyer-capstone.firebaseapp.com',
+    databaseURL: 'https://kiddyer-capstone.firebaseio.com',
+    projectId: 'kiddyer-capstone',
+    storageBucket: '',
+    messagingSenderId: '226025468668'
+  };
+
+  const firebaseConf_Bruce = {
+    apiKey: 'AIzaSyB7tQOQDyedWRypB4e301jHgzYPBJYf9wM',
+    authDomain: 'kiddyer-1521547598504.firebaseapp.com',
+    databaseURL: 'https://kiddyer-1521547598504.firebaseio.com',
+    projectId: 'kiddyer-1521547598504',
+    storageBucket: '',
+    messagingSenderId: '226025468668'
+  };
+
+  firebase.initializeApp(firebaseConf_Bruce);
+  //ignoreWarnings('Setting a timer');
+  //ignoreWarnings('e');
+}
+
+```
+
+Now, run the application, the data will be stored at your Firebase account.
