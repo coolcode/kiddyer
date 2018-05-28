@@ -62,8 +62,10 @@ Now all local dependencies will be installed to local, it may take a little bit 
 For Android simulator, you don not need to link maps, just simply run:
 
 ```
-react-native run-android
+react-native run-androi, 
 ```
+## Web
+For running on the web, you need to download the kiddyer-server package to your local folder, and then use Pycharm to open this package, click "run" buttn, type the url:http://127.0.0.1:8000/login/ on browser.
 
 # Running On Real Devices
 
