@@ -2,7 +2,6 @@
 import React from 'react';
 import { Actions, Router, Scene } from 'react-native-router-flux';
 import { Root } from 'native-base';
-import Login from './components/Login';
 import Register from './components/Register';
 import FamilyList from './components/FamilyList';
 import InviteMember from './components/InviteMember';
@@ -10,9 +9,13 @@ import Gmap from './components/Gmap';
 import UserProfile from './components/UserProfile';
 import Chat from './components/Chat';
 import LocationHistory from './components/LocationHistory';
+import LocationHistoryDetail from './components/LocationHistoryDetail';
+import LocationHistoryDetailMap from './components/LocationHistoryDetailMap';
+import LocationHistoryToMap from './components/LocationHistoryToMap';
 import JoinGroup from './components/JoinGroup';
-import Test from './components/Test';
+import ManageMember from './components/ManageMember';
 import LoginScreen from './components/common/LoginScreen';
+import JoinedGroup from './components/JoinedGroup';
 
 const RouterComponent = () => {
   return (
@@ -46,6 +49,11 @@ const RouterComponent = () => {
               initial
             />
             <Scene
+              key="joinedGroup"
+              component={JoinedGroup}
+              title="Joined Group"
+            />
+            <Scene
               key="invite"
               component={InviteMember}
               title="Manage Group"
@@ -74,14 +82,30 @@ const RouterComponent = () => {
             <Scene
               key="chat"
               component={Chat}
-              leftTitle="Done"
-              onLeft={() => Actions.family()}
             />
             <Scene
               key="locationHistory"
               component={LocationHistory}
               leftTitle="Done"
               onLeft={() => Actions.family()}
+            />
+            <Scene
+              key="locationDetail"
+              component={LocationHistoryDetail}
+            />
+
+            <Scene
+              key="locationDetailMap"
+              component={LocationHistoryDetailMap}
+            />
+            <Scene
+              key="locationHistoryToMap"
+              component={LocationHistoryToMap}
+            />
+
+            <Scene
+              key="manageMember"
+              component={ManageMember}
             />
           </Scene>
         </Scene>

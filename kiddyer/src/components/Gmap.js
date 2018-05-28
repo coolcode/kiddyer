@@ -4,7 +4,7 @@ import {
   View,
   Dimensions,
   InteractionManager,
-  TouchableOpacity
+  TouchableOpacity,TouchableHighlight
 } from 'react-native';
 import {
   Container,
@@ -25,12 +25,13 @@ import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
+import timer from 'react-native-timer';
 
 
 export default class Gmap extends Component {
   constructor(props){
     super(props);
-
+    this.zoom = 0.0520;
     this.state = {
       loading: true,
       region: {
@@ -39,17 +40,7 @@ export default class Gmap extends Component {
       },
       markers: [],
     };
-
-        /*opera house */
-    /**{
-        key: "maker1",
-        coordinate:{
-          latitude: -33.8655721,
-          longitude:  151.2048194,
-        },
-        title: "Kid",
-        description: "Where I am?"
-      } */
+ 
     this.members = [];
     this.membersRef = [];
   }
@@ -77,8 +68,8 @@ export default class Gmap extends Component {
             region:{
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0922 * ratio,
+              latitudeDelta: this.zoom,
+              longitudeDelta: this.zoom * ratio,
             },
             error: null,
             });
@@ -93,20 +84,9 @@ export default class Gmap extends Component {
           region:{
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0922 * ratio,
-          },
-          // markers: [{
-          //   key: "maker1",
-          //   /*opera house */
-          //   coordinate:{
-          //     latitude: position.coords.latitude,
-          //     longitude: position.coords.longitude,
-          //   },
-          //   title: "Kid",
-          //   description: "Where I am?",
-          //   image: "../assets/child.png"
-          // }],
+            latitudeDelta: this.zoom,
+            longitudeDelta: this.zoom * ratio,
+          }, 
           error: null,
           });
 
@@ -124,16 +104,66 @@ export default class Gmap extends Component {
     console.log(`map: group id: ${id}`);
     this.loadMembers(id);
 
-    });
+
+    });//run after interval
+  }
+
+  onRandomMove(){    
+    //random move
+    timer.setInterval('timer1',() => {
+      console.log('re loaction!');   
+      this.members.forEach(m=>{
+          console.log(m);
+      });
+      
+      var r = Math.random();
+      console.log(`r: ${r}`);
+      console.log(this.state.markers);
+      var index = 1; 
+      if(r>0.4){
+        index = this.members.length-1;
+      }else{
+        index = 1;
+      }
+      var uid = this.members[index].uid;
+      if(this.state.markers.length<=index){
+        return;
+      }
+      //
+      console.log(`uploadUserLocation! ${index}`);     
+      var currentLocation = this.state.markers[index].coordinate;
+      currentLocation = this.randomMove(currentLocation);
+      console.log(currentLocation); 
+      this.uploadUserLocation( uid, currentLocation);
+    }, 2000);
+  }
+
+  randomMove(oldloc) {
+    var loc = {latitude: oldloc.latitude, longitude: oldloc.longitude};
+    var r = Math.random();
+    if (r < 0.3) {
+        loc.latitude += 0.0001;
+        loc.longitude -= 0.0001;
+    } else if (r < 0.5) {
+        loc.latitude -= 0.0003;
+        loc.longitude += 0.0001;
+    } else if (r < 0.7) {
+        loc.latitude -= 0.00005;
+        loc.longitude -= 0.0002;
+    } else {
+        loc.latitude += 0.00005;
+        loc.longitude += 0.0003;
+    }
+    return loc;
   }
 
   loadMembers(id) { 
       const user = firebase.auth().currentUser;      
-      this.groupsRef = firebase.database().ref(`member_join/${user.uid}/${id}/members`)
+      this.groupsRef = firebase.database().ref(`member_group/${user.uid}/${id}/members`)
       .once('value', (snapshot) =>{
         var items = [{uid: user.uid, email: user.email}];
         this.membersRef = [];
-        snapshot.forEach( (item)=> {
+        snapshot.forEach( item=> {
           var key = item.key;
           var val = item.val();
           if(val){
@@ -144,21 +174,22 @@ export default class Gmap extends Component {
             });
           }
           
-        console.log(`member:${val.email}, ${val.uid}`);
+          console.log(`member:${val.email}, ${val.uid}`);
         });//snapshot
 
         this.members = items ;
+        //this.onRandomMove();
 
         items.forEach(item=>{          
           let locationRef = firebase.database().ref(`location/${item.uid}`);
           locationRef.on('value', ss=>{
             let x = ss.val();
-            console.log(`location change: ${item.uid}, ${x.lat}, ${x.lng}, ${item.email}`);
             console.log(x);
             var markerKey = `${item.uid}`;
             if(!x){
               return;
             }
+            console.log(`location change: ${item.uid}, ${x.lat}, ${x.lng}, ${item.email}`);
             let mk = {
               key: markerKey,
               /*opera house */
@@ -179,11 +210,14 @@ export default class Gmap extends Component {
               }
             }
 
+            var newMarkers = this.state.markers;
             if(found>=0){
-              this.state.markers[found] = mk;
+              newMarkers[found] = mk;
             }else{
-              this.state.markers.push(mk);
+              newMarkers.push(mk);
             }
+
+            this.setState({markers: newMarkers});
           });//end locationRef
 
           this.membersRef.push(locationRef);
@@ -195,10 +229,30 @@ export default class Gmap extends Component {
   uploadLocation(coords){
     console.log(`upload: ${coords.latitude}, ${coords.longitude}`);
     const user = firebase.auth().currentUser;
-    let data = {lat:coords.latitude, lng:coords.longitude, date: new Date()};
+    const date = new Date();
+    const data = {lat:coords.latitude, lng:coords.longitude, created: date};
     let updates = {};
     updates['/location/' + user.uid ] = data;
-    firebase.database().ref().update(updates);
+    //history
+    let trackTime = new Date().toISOString()
+                      .replace(/T/, ' ')     
+                      .replace(/\..+/, '');
+    updates[`location_history/${user.uid}/${trackTime}`] = data;
+    firebase.database().ref().update(updates); 
+  }
+
+  uploadUserLocation(uid, coords){
+    console.log(`upload: ${coords.latitude}, ${coords.longitude}`); 
+    const date = new Date();
+    const data = {lat:coords.latitude, lng:coords.longitude, created: date};
+    let updates = {};
+    updates['/location/' + uid ] = data;
+    //history
+    let trackTime = new Date().toISOString()
+                      .replace(/T/, ' ')     
+                      .replace(/\..+/, '');
+    updates[`location_history/${uid}/${trackTime}`] = data;
+    firebase.database().ref().update(updates); 
   }
 
   renderMaker(marker, key){
@@ -211,33 +265,21 @@ export default class Gmap extends Component {
     coordinate={marker.coordinate}
     title={marker.title}
     description={marker.description}
-    image = {require("../assets/img/child.png")}
+    image = {marker.key== firebase.auth().currentUser.uid ? require("../assets/img/gps.png"): require("../assets/img/kid.png")} 
+    onCalloutPress={() => Actions.chat({uid: marker.key})} 
   >
-    <Callout>
+   <Callout>
       <Card>
-        <CardItem>
-          <Left>
-            {/* <Thumbnail source={require("../assets/img/child.png")} /> */}
-            <Body>
-           
-              <TouchableOpacity 
-            onPress={() => Actions.chat({uid: marker.key})}
-          >
-               <Text>{marker.title}</Text>
-          </TouchableOpacity>
-            </Body>
-          </Left>
+        <CardItem>  
+               <Text>{marker.title}</Text> 
         </CardItem>
        {/* <CardItem cardBody>
-          <Image source={{uri: "http://res.cloudinary.com/yopo/image/upload/r_19/v1509367508/kiddyer/baby-laughing-icon_1.png"}}
-            style={{height: 40, width: 40, flex: 1}}/>
-        </CardItem>  */}
-        <CardItem footer>
-          {/* <Text>{marker.description}</Text> */}
-          <Button transparent onPress={() => Actions.chat({uid: marker.key})}>
-                <Text>Chat</Text>
-              </Button>
-        </CardItem>
+          <Image source={require("../assets/img/child.png")}
+            style={{height: 128, width: 128, flex: 1}}/>
+        </CardItem> */}
+        {/* <CardItem footer>
+          <Text>{marker.description}</Text> 
+        </CardItem> */}
       </Card>
     </Callout>
   </Marker>);

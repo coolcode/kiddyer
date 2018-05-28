@@ -1,31 +1,19 @@
-/* @flow */
-
 import React, { Component } from 'react';
 import { RefreshControl } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Drawer, Container, Header, Left, Body, Right, Button, Icon, Title, List, ListItem, Thumbnail, Text, Content } from 'native-base';
-//import CardImage from './CardImage';
-import Sidebar from './Sidebar';
+import { Container, Left, Body, Right, Button, Icon, List, ListItem, Thumbnail, Text, Content } from 'native-base';
 import firebase from 'firebase';
 
-export default class FamilyList extends Component {
+export default class JoinedGroup extends Component {
   constructor(props) {
     super(props);
 
     const user = firebase.auth().currentUser;
-    this.groupsRef = firebase.database().ref('member_group/'+ user.uid).limitToLast(100);
+    this.groupsRef = firebase.database().ref('member_join/'+ user.uid).limitToLast(100);
     this.state = {
       items: [],
       refreshing: false,
     };
-  }
-
-  closeDrawer() {
-    this.drawer._root.close();
-  }
-
-  openDrawer() {
-    this.drawer._root.open();
   }
 
   refreshData() {
@@ -36,11 +24,11 @@ export default class FamilyList extends Component {
     console.log(`edit key: ${groupKey}`);
     this.setState({
                     key: groupKey,
-                    deleteAuth: true
+                    deleteAuth: false
                   });
     Actions.manageMember({
                     id: groupKey,
-                    deleteAuth: true,
+                    deleteAuth: false
                   });
   }
 
@@ -48,18 +36,22 @@ export default class FamilyList extends Component {
     Actions.viewOnMap({ id: groupKey });
   }
 
-  listenForDatabases(groupsRef){
+  listenForDatabases(groupsRef) {
     groupsRef.on('value', groups => {
       var items = [];
-      groups.forEach( (item)=> {
+      groups.forEach(
+        (item) => {
         var key = item.key;
         var val = item.val();
+        console.log(`${key}`)
+        console.log(`${val}`)
         items.push({
           key,
           groupName: val.groupName,
           groupCode: val.groupCode
         });
       });
+      console.log(`${items}`)
       this.setState({items: items});
     });
   }
@@ -107,51 +99,14 @@ export default class FamilyList extends Component {
   _onRefresh() {
     this.setState({ refreshing: true });
     console.log('hi');
+    console.log(`${this.state.items}`)
     this.setState({ refreshing: false });
-  }
-
-  deleteGroup(groupKey) {
-    const user = firebase.auth().currentUser;
-    const groupTable = firebase.database().ref(`groups/${groupKey}`);
-    const memberTable = firebase.database().ref(`member_group/${user.uid}/${groupKey}`);
-    const memberJoin = firebase.database().ref(`member_join/${user.uid}/${groupKey}`);
-    groupTable.remove();
-    memberTable.remove();
-    memberJoin.remove();
-
-    Actions.family();
   }
 
   render() {
     return (
-      <Drawer
-       ref={(ref) => { this.drawer = ref; }}
-       content={<Sidebar navigator={this.navigator} />}
-       onClose={() => this.closeDrawer()}
-      >
 
        <Container>
-          <Header>
-            <Left>
-              <Button transparent onPress={() => this.openDrawer()}>
-                <Icon name='menu' />
-              </Button>
-            </Left>
-            <Body>
-              <Title>Member Group</Title>
-            </Body>
-            <Right>
-              <Button transparent onPress={() => Actions.join()}>
-                <Icon name='person' />
-              </Button>
-              {/* <Button transparent onPress={() => this.refreshData()}>
-                <Icon name='refresh' />
-              </Button> */}
-              <Button transparent onPress={() => Actions.invite()}>
-                <Icon name='add' />
-              </Button>
-            </Right>
-          </Header>
           <Content
               refreshControl={
                 <RefreshControl
@@ -168,7 +123,8 @@ export default class FamilyList extends Component {
                         <Thumbnail source={require('../assets/img/child.png') }  onPress={()=> Actions.viewOnMap({ key: item.key})}/>
                       </Left> */}
                       <Left>
-                        <Button transparent
+                        <Button
+                          transparent
                           block
                           onPress={()=> this.viewOnMap(item.key)}
                         >
@@ -193,26 +149,12 @@ export default class FamilyList extends Component {
                             />
                         </Button>
                       </Right>
-                      <Right>
-                        <Button
-                          danger
-                          style={{ marginTop: -8 }}
-                          block
-                          transparent
-                          onPress={() => this.deleteGroup(item.key)}
-                        >
-                          <Icon name="trash" />
-                        </Button>
-                      </Right>
                     </ListItem>
                   )}
                 />
           </Content>
-
-
        </Container>
-      {/* <FooterBadge /> */}
-     </Drawer>
+
     );
   }
 }
