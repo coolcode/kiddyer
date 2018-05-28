@@ -65,7 +65,13 @@ For Android simulator, you don not need to link maps, just simply run:
 react-native run-androi, 
 ```
 ## Web
-For running on the web, you need to download the kiddyer-server package to your local folder, and then use Pycharm to open this package, click "run" buttn, type the url:http://127.0.0.1:8000/login/ on browser.
+
+The web is built based on Python with Django, the expected IDE is Pycharm. After clone this project, use Pycharm to open the project folder "kiddyer-server" which is the Web code. Pycharm will automatically install the necessary dependecies. Then click the "run" button. You will be able to login the website at:
+
+```
+http://127.0.0.1:8000/login/
+```
+
 
 # Running On Real Devices
 
