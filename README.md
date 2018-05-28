@@ -120,5 +120,93 @@ react-native run-android
 
 # Deployment (Bundle)
 
+The two ways of running your app on your phone are (1.) as a local Node process, and (2.) as a bundled file that runs completely on the phone without external dependencies. There are some simple procedues to create bundled file, for detailed instructions on delpoyment, please have a look at [iOS deployment](https://medium.com/react-native-development/deploying-a-react-native-app-for-ios-pt-1-a79dfd15acb8) and [Android deployment](https://facebook.github.io/react-native/docs/signed-apk-android.html)
 
+## iOS
 
+On the AppDelegate.m file, you need to change the jsCodeLocation:
+
+![JS](https://cdn-images-1.medium.com/max/1600/1*v4VPIxPHfWESxIM_wQezCQ.png)
+
+```
+jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+```
+
+Make sure your Bundle Indentifier:
+
+![Bundle](https://cdn-images-1.medium.com/max/1600/1*9vvdivYn0u9YRf3ykb6wZQ.png)
+
+Now run the command:
+
+```
+react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
+```
+
+After the bundling is finished, change the jsCodeLocation:
+
+```
+NSURL *jsCodeLocation;
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+```
+Now this application will be running in a specific bundled version on iOS!
+
+## Android
+
+For bundling on Android Phone, you must generate a signed APK
+
+### Generating a signing key
+
+You can generate a private signing key using keytool. On Windows keytool must be run from C:\Program Files\Java\jdkx.x.x_x\bin.
+
+### Setting up gradle variables
+
+1. Place the my-release-key.keystore file under the android/app directory in your project folder.
+
+2. Edit the file ~/.gradle/gradle.properties or android/gradle.properties and add the following (replace ***** with the correct keystore password, alias and key password)
+
+```
+MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
+MYAPP_RELEASE_KEY_ALIAS=my-key-alias
+MYAPP_RELEASE_STORE_PASSWORD=*****
+MYAPP_RELEASE_KEY_PASSWORD=*****
+```
+
+### Adding signing config to your app's gradle config
+
+Edit the file android/app/build.gradle in your project folder and add the signing config
+
+```
+...
+android {
+    ...
+    defaultConfig { ... }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            ...
+            signingConfig signingConfigs.release
+        }
+    }
+}
+...
+```
+
+### Generating the release APK
+
+Simply run the following in a terminal:
+
+```
+cd android && ./gradlew assembleRelease
+```
+
+The generated APK can be found under android/app/build/outputs/apk/app-release.apk, and is ready to be distributed.
