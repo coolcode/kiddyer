@@ -247,14 +247,6 @@ Modify the configuration structure so that it can keep similiar with the source 
 
 ```
 componentWillMount() {
-  const firebaseConf_Will = {
-    apiKey: 'AIzaSyACti3poX0jG2tGD6cS-uZ25fDgHwDMorw',
-    authDomain: 'kiddyer-capstone.firebaseapp.com',
-    databaseURL: 'https://kiddyer-capstone.firebaseio.com',
-    projectId: 'kiddyer-capstone',
-    storageBucket: '',
-    messagingSenderId: '226025468668'
-  };
 
   const firebaseConf_Bruce = {
     apiKey: 'AIzaSyB7tQOQDyedWRypB4e301jHgzYPBJYf9wM',
