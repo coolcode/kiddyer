@@ -22,20 +22,18 @@ from kiddyer import views, appviews
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-#router.register(r'user_group',views.APIShowFamilyGroupView)
-#router.register(r'login',views.login.as_view(), base_name='login')
-
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
 
-    url(r'^', include(router.urls)),
+    #url(r'^', include(router.urls)),
+    url(r'^$', appviews.login, name='login'),
+
     url(r'^api/', include(router.urls)),
     #api
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #app
-    # url(r'^', appviews.index, name="index"),
+
     # api/v1/user/register/
     url(r'^api/v1/user/register/$', views.APIRegisterView.as_view(), name='api-v1-user-register'),
 
@@ -75,7 +73,6 @@ urlpatterns = [
     #api/v1/user_profile/
     url(r'^api/v1/user_profile/(?P<pk>[0-9]+)$', views.APIGetUserProfileView.as_view(), name='api-v1-get-profile'),
 
-#login
     url(r'^login/$', appviews.login, name='login'),
     url(r'^logout/$', appviews.logout, name='logout'),
     url(r'^google_map/$', appviews.google_map, name='google_map'),
@@ -86,4 +83,3 @@ urlpatterns = [
 ]
 
 
-#urlpatterns = format_suffix_patterns(urlpatterns)

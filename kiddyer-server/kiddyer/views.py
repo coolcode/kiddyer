@@ -105,7 +105,6 @@ class APICreateFamilyView(APIView):
 class APIDeleteFamilyGroupView(APIView):
 
     def delete(self, request, pk, format=None):
-       # print("username: %s" % (pk))
         deleted, rows_count = AppGroup.objects.filter(user_id=pk).delete()
         if deleted:
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -120,14 +119,6 @@ class APIShowFamilyGroupView(APIView):
         serializer_class = AppGroupSerializer(instance=group_list, many=True)
 
         return Response({'result data': serializer_class.data})
-# def showFamilyGroup(request):
-#     if request.method =='GET':
-#         group_list = AppGroup.objects.all()
-#         serializer_class = ShowFamilyGroupSerializer(group_list, many=True)
-#         content = JSONRenderer().render(serializer_class.data)
-#         print(content)
-#         # return JsonResponse(serializer_class.data, safe=False)
-#         return JsonResponse(serializer_class.data, safe=False)
 
 
 #url api/v1/user_group/{id}/
@@ -207,12 +198,7 @@ class APIUpdateUserProfileView(APIView):
 
         return Response({'result data': "Success"})
 
-    # def get(self, request, format=None):
-    #     userId = request.query_params.get('userId')
-    #     obj = AppUserProfile.objects.filter(user_id=userId).get()
-    #     serializer_class = AppUserProfileSerializer(instance=obj)
-    #
-    #     return Response({'result data': serializer_class.data})
+
 
 #url api/v1/user_profile/{user_id}
 class APIGetUserProfileView(APIView):

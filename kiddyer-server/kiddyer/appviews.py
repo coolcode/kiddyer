@@ -34,26 +34,12 @@ firebase = pyrebase.initialize_app(config)
 
 auth_firebase = firebase.auth()
 db = firebase.database()
-#
-# user_firebase = {}
+
 
 
 
 
 def index(request):
-    # all_groups = db.child("member_group").get(user['idToken']).val()
-
-
-    # all_groups = db.child("member_group").get()
-    # list_group = []
-    # print(all_groups)
-    # for group in all_groups.each():
-    #     list_group.append(group)
-    #     # print(group)
-    #     print(group.key())
-    #     print("\n")
-    #
-    # print(list_group)
     context = {
     }
     return render(request, 'app/index.html', context)
@@ -63,14 +49,8 @@ def login(request):
         form = LoginForm()
         return render(request, 'app/pages-login.html', {})
     else:
-        # form = LoginForm(request.POST)
-        # if form.is_valid():
         username = request.POST['username']
-            # email = request.POST['email']
         password = request.POST['password']
-            # user = auth.authenticate(username=username, password=password)
-
-            # email = request.user.email
 
         try:
             global user_firebase
@@ -84,7 +64,6 @@ def login(request):
             for i in all_groups:
                 list_groups.append(i)
 
-            # u_id = str(list_groups[0])
             group_name = []
             for j in list_groups:
                 name = db.child("member_group").child(user_firebase['localId']).child(j).child("groupName").get().val()
@@ -93,11 +72,7 @@ def login(request):
             context = {
                 'group_name': group_name
             }
-            # message = ""
-            # context = {
-            #     'uid': user_firebase['localId'],
-            #     "message": message
-            # }
+
         except:
             message = "invalid credentials"
             context = {
@@ -107,26 +82,10 @@ def login(request):
 
         return render(request, 'app/member.html', context)
 
-            # if user is not None and user.is_active:
-            #     auth.login(request, user)
-            #     return render(request, 'app/index_test.html', {})
-            # else:
-            #     return render(request, 'app/pages-login.html', {})
-        # else:
-            # msg = 'Errors: %s' % form.errors.as_text()
-            # return HttpResponse(msg, status=400)
-            # return HttpResponse(form.errors)
-            # return render(request, "app/pages-login.html", {})
 
 def logout(request):
     if request.method == "POST":
-        # logout(request)
         return render(request, "app/pages-login.html", {})
-# def stream_handler(post):
-#     print(post)
-#     requests.post("http://127.0.0.1:8000/google_map/", data = {'key':'value'})
-
-# my_stream = db.child("location").stream(stream_handler)
 
 def get_map_coordinate():
     all_uID = db.child("member_group").shallow().get().val()
@@ -141,14 +100,10 @@ def get_map_coordinate():
 
     list_group = []
     for i in all_groups:
-        # group = db.child("member_group").child(u_id).child(i).shallow().get().val()
         list_group.append(i)
 
     key = str(list_group[0])
-
-    # print(key)
     user_id = db.child("member_group").child(u_id).child(key).child('user').child('uid').get().val()
-    # print(user_id)
 
     lat_firebase = db.child("location").child(user_id).child('lat').get().val()
     lng_firebase = db.child("location").child(user_id).child('lng').get().val()
@@ -164,13 +119,6 @@ def get_map_coordinate():
 def google_map(request):
 
     context = {}
-
-    # if request.method == 'GET':
-    #     print("GET")
-    #     # context = get_map_coordinate()
-    #     return render(request, 'app/google_map.html', context)
-
-
 
     return render(request, 'app/google_map.html', context)
 
@@ -209,7 +157,6 @@ def member(request):
     for i in all_groups:
         list_groups.append(i)
 
-    # u_id = str(list_groups[0])
     group_name = []
     for j in list_groups:
         name = db.child("member_group").child(user_firebase['localId']).child(j).child("groupName").get().val()

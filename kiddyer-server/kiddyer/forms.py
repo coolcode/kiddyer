@@ -14,13 +14,6 @@ class LoginForm(forms.Form):
         label='password'
     )
 
-    # def clean(self):
-    #     #username = self.cleaned_data['username']
-    #
-    #     if not self.is_valid():
-    #         raise forms.ValidationError("Please Enter The Username and Password ")
-    #     else:
-    #         cleaned_data = super(LoginForm, self).clean()
 
     def clean_username(self):
         username = self.cleaned_data['username']
