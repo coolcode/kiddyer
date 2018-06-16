@@ -226,6 +226,7 @@
 
         var userId = '{{ uid }}';
         var group_name = '{{ group_name }}';
+        var is_map_loaded = false;
 
         function initFirebase() {
 
@@ -356,19 +357,24 @@
 
             }*/
             console.log(location_group);
-            loadMap(location_group);
+            loadMap(location_group, is_map_loaded);
         })
 
 
     }
 
     //getMemberLocation();
+    var map;
+    var markers;
+    var marker = [];
 
-    function loadMap(locationGroup) {
+    function loadMap(locationGroup, map_flag) {
         console.log('location3');
 
+        if(!map_flag){
 
-        var map;
+
+        //var map;
         var mark;
         var bounds = new google.maps.LatLngBounds();
 
@@ -382,22 +388,25 @@
         map.setTilt(45);
 
         // Multiple Markers
-        var markers = locationGroup;
+        markers = locationGroup;
         //console.log(markers);
 
         // Info Window Content
         //var infoWindowContent = location_group;
 
         //var infoWindow = new google.maps.InfoWindow();
-        var marker, i;
+        //var marker, i;
+        var i;
 
         console.log('location4');
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
-          center: new google.maps.LatLng(markers[1][0], markers[1][1]),
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: new google.maps.LatLng(markers[0][0], markers[0][1]),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
+
+        is_map_loaded = true;
 
         var icon = {
              url: '{% static 'assets/images/background/marker.png' %}', // url
@@ -409,7 +418,7 @@
               var position = new google.maps.LatLng(markers[i][0], markers[i][1]);
               bounds.extend(position);
                 //alert(position);
-               marker = new google.maps.Marker(
+               marker[i] = new google.maps.Marker(
                     {
                         position: position,
                         map: map,
@@ -421,6 +430,22 @@
                     });
 
 
+        }
+        }
+        else
+        {
+            markers = locationGroup;
+            var icon = {
+             url: '{% static 'assets/images/background/marker.png' %}', // url
+             scaledSize: new google.maps.Size(50, 50), // scaled size
+
+        };
+            for (i = 0; i < markers.length; i++) {
+              var position = new google.maps.LatLng(markers[i][0], markers[i][1]);
+              //bounds.extend(position);
+               marker[i].setPosition(position);
+
+            }
         }
     }
 
