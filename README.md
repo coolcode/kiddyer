@@ -1,7 +1,6 @@
 ## KIDDYER
-Kiddyer is a children protection system based on real-time positioning map (Google Map). For detailed introduction, please have a look at our home page and blog.
-Home: [http://www.kiddyer.com](http://www.kiddyer.com)
-Blog: [http://blog.kiddyer.com](http://blog.kiddyer.com)
+Kiddyer is a children protection system based on real-time positioning map (Google Map). 
+
 
 # Running On Simulators
 
